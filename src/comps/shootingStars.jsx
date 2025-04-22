@@ -1,22 +1,27 @@
 import { useEffect } from 'react';
+import { useTheme } from '../themeContext';
 import './shootingStars.css';
 
 export default function ShootingStars() {
+  const { darkMode } = useTheme();
+  
   return (
     <div className="shooting-stars-container">
-    <div className="night">
-      {[...Array(30)].map((_, i) => {
-        const computedTop = getComputedTopPosition(i);
-        const shiftedTop = computedTop + 20;
-        
-        return (
-          <div 
-            key={i} 
-            className="shooting_star" 
-            style={{ top: `${shiftedTop}%` }}
-          ></div>
-        );
-      })}
+      <div className={`background dark-mode ${darkMode ? 'visible' : 'hidden'}`}></div>
+      <div className={`background light-mode ${darkMode ? 'hidden' : 'visible'}`}></div>
+      <div className="night">
+        {[...Array(30)].map((_, i) => {
+          const computedTop = getComputedTopPosition(i);
+          const shiftedTop = computedTop + 20;
+          
+          return (
+            <div 
+              key={i} 
+              className={`shooting_star ${darkMode ? 'dark-star' : 'light-star'}`} 
+              style={{ top: `${shiftedTop}%` }}
+            ></div>
+          );
+        })}
       </div>
     </div>
   );

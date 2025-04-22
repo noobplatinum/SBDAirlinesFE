@@ -4,8 +4,10 @@ import sbdLogo from '../assets/sbd-logo.png';
 import dmjLogo from '../assets/dmj-logo.png';
 import osLogo from '../assets/os-logo.png';
 import Orbital from './orbital';
+import { useTheme } from '../themeContext';
 
 export default function MainCircle() {
+  const { darkMode } = useTheme();
   const [screenSize, setScreenSize] = useState(window.innerWidth);
   
   useEffect(() => {
@@ -30,18 +32,29 @@ export default function MainCircle() {
 
   const orbitalImages = [dmjLogo, sbdLogo, osLogo];
 
+  const titleColor = darkMode ? "text-white" : "text-slate-800";
+  const circleGradient = darkMode 
+    ? "bg-gradient-to-r from-black to-blue-900" 
+    : "bg-gradient-to-r from-gray-100 to-blue-200";
+  const backdropColor = darkMode 
+    ? "bg-black bg-opacity-40" 
+    : "bg-white bg-opacity-30";
+  const glowEffect = darkMode 
+    ? "shadow-lg shadow-blue-500/30" 
+    : "shadow-lg shadow-blue-300/20";
+
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1 className="mb-60 sm:mb-60 md:mb-68 lg:mb-72 xl:mb-76 2xl:mb-[400px] text-4xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-white text-center enable-scroll">
-        <span className="text-white">Main Labs</span>
+      <h1 className={`mb-60 sm:mb-60 md:mb-68 lg:mb-72 xl:mb-76 2xl:mb-[400px] text-4xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold ${titleColor} text-center enable-scroll transition-colors duration-300`}>
+        <span>Main Labs</span>
       </h1>
       
       <div className="relative mb-8">
         <div 
-          className="rounded-full bg-gradient-to-r from-black to-blue-900 flex items-center justify-center shadow-xl glow"
+          className={`rounded-full ${circleGradient} flex items-center justify-center ${glowEffect} transition-all duration-300`}
           style={{ width: `${mainCircleSize}px`, height: `${mainCircleSize}px` }}
         >
-          <div className="absolute inset-0 rounded-full bg-black bg-opacity-40 backdrop-blur-sm"></div>
+          <div className={`absolute inset-0 rounded-full ${backdropColor} backdrop-blur-sm transition-colors duration-300`}></div>
           <div className="flex items-center justify-center z-10 rounded-full p-8">
             <img 
               src={netlabLogo} 

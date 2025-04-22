@@ -5,14 +5,15 @@ import GeneralSection from './comps/generalsection'; // Import the new component
 import MainCircle from './comps/maincircle';
 import BioSection from './comps/biosection';
 import Footer from './comps/footer';
+import { ThemeProvider } from './themeContext';
 
 export default function App() {
   return (
+    <ThemeProvider>
     <div className="relative">
       <div className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none">
         <ShootingStars />
       </div>
-      
       <Header />
       
       <main className="relative z-10">
@@ -35,5 +36,6 @@ export default function App() {
         <Footer />
       </main>
     </div>
+    </ThemeProvider>
   );
 }
