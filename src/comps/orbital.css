@@ -21,6 +21,7 @@
     background: linear-gradient(135deg, #3b82f6, #8b5cf6);
     z-index: 5;
     cursor: pointer;
+    --orbit-radius: 230px; /* Default value, will be overridden */
 }
   
 .subcircle.visible {
@@ -28,7 +29,7 @@
 }
   
 .subcircle-icon {
-    font-size: 1.5rem;
+    font-size: inherit;
     color: white;
 }
 
@@ -46,27 +47,27 @@
 
 @keyframes orbit1 {
     from {
-        transform: translate(-50%, -50%) rotate(0deg) translateX(230px) rotate(0deg);
+        transform: translate(-50%, -50%) rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);
     }
     to {
-        transform: translate(-50%, -50%) rotate(360deg) translateX(230px) rotate(-360deg);
+        transform: translate(-50%, -50%) rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);
     }
 }
 
 @keyframes orbit2 {
     from {
-        transform: translate(-50%, -50%) rotate(120deg) translateX(230px) rotate(-120deg);
+        transform: translate(-50%, -50%) rotate(120deg) translateX(var(--orbit-radius)) rotate(-120deg);
     }
     to {
-        transform: translate(-50%, -50%) rotate(480deg) translateX(230px) rotate(-480deg);
+        transform: translate(-50%, -50%) rotate(480deg) translateX(var(--orbit-radius)) rotate(-480deg);
     }
 }
 
 @keyframes orbit3 {
     from {
-        transform: translate(-50%, -50%) rotate(240deg) translateX(230px) rotate(-240deg);
+        transform: translate(-50%, -50%) rotate(240deg) translateX(var(--orbit-radius)) rotate(-240deg);
     }
     to {
-        transform: translate(-50%, -50%) rotate(600deg) translateX(230px) rotate(-600deg);
+        transform: translate(-50%, -50%) rotate(600deg) translateX(var(--orbit-radius)) rotate(-600deg);
     }
 }

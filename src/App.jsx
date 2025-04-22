@@ -8,36 +8,30 @@ import Footer from './comps/footer';
 
 export default function App() {
   return (
-    <div className="relative min-h-screen">
-      {/* Fixed background */}
+    <div className="relative">
       <div className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none">
         <ShootingStars />
       </div>
       
-      {/* Header - fixed at top */}
       <Header />
       
-      {/* Main content sections */}
       <main className="relative z-10">
-        {/* General section with large text and circle */}
-        <section>
+        <section id="overview">
           <GeneralSection 
-            title="Cosmic Portfolio" 
-            subtitle="Navigating the digital universe with stellar web development and design" 
+            title="Network Laboratory DTE FTUI"  
+            subtitle="Netlab adalah laboratorium yang didirikan pada tahun XXXX di Universitas Indonesia. Tugas utama Netlab adalah untuk mengawasi aktivitas praktikum mata-mata kuliah berbasis jaringan dan aplikasi high-level, seperti development game/web dan jaringan." 
           />
         </section>
         
-        {/* Hero section with MainCircle */}
-        <section className="min-h-screen flex items-center justify-center">
+        <section id="labs" className="py-8 md:py-12 lg:py-16 flex items-center justify-center">
           <MainCircle />
         </section>
         
-        {/* Bio section */}
-        <section className="min-h-screen py-16 enable-scroll">
+        <div className='h-[100px]'></div>
+        <section id="praktikum" className="mt-12 md:mt-24 lg:mt-[150px] py-8 md:py-12 lg:py-16 enable-scroll">
           <BioSection />
         </section>
         
-        {/* Footer */}
         <Footer />
       </main>
     </div>
