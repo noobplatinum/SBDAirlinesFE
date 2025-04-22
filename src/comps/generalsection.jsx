@@ -3,8 +3,8 @@ import netlabLogo from '../assets/netleb.png';
 import { useTheme } from '../themeContext';
 
 export default function GeneralSection({ 
-  title = "Stellar Solutions", 
-  subtitle = "Crafting digital experiences that are out of this world",
+  title = "Nil", 
+  subtitle = "Nil",
   image = netlabLogo
 }) {
   const { darkMode } = useTheme();
@@ -20,38 +20,41 @@ export default function GeneralSection({
   const pulseCircleBg = darkMode ? "bg-blue-400/20" : "bg-blue-300/20";
   
   return (
-    <section className={`w-full min-h-screen py-16 flex items-center transition-colors duration-300 bg-transparent`}>
-      <div className="container mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between">
-        <div className="lg:w-3/5 text-center lg:text-left mb-12 lg:mb-0">
-          <h1 className={`text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold ${textColor} leading-tight transition-colors duration-300`}>
+    <section className="w-full min-h-screen pt-36 sm:pt-32 md:pt-28 lg:py-16 flex items-center transition-colors duration-300 bg-transparent">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-4">
+          <div className="w-full lg:w-3/5 text-center lg:text-left mb-8 lg:mb-0">
+          <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black sm:font-extrabold lg:font-bold ${textColor} leading-tight transition-colors duration-300`}>
             {title}
           </h1>
-          <p className={`text-xl md:text-2xl ${subtitleColor} mt-8 max-w-2xl mx-auto lg:mx-0 transition-colors duration-300`}>
+          <p className={`text-lg sm:text-xl md:text-2xl font-medium sm:font-normal ${subtitleColor} mt-6 md:mt-8 max-w-2xl mx-auto lg:mx-0 transition-colors duration-300`}>
             {subtitle}
           </p>
-        </div>
-        
-        <div className="lg:w-2/5 relative flex justify-center lg:justify-end">
-          <div className={`w-[22rem] h-[22rem] md:w-[28rem] md:h-[28rem] lg:w-[34rem] lg:h-[34rem] xl:w-[38rem] xl:h-[38rem] rounded-full ${circleColor} shadow-2xl ${shadowColor} relative overflow-hidden transition-all duration-300`}>
-            <div className={`absolute inset-10 md:inset-12 lg:inset-14 xl:inset-16 rounded-full ${innerCircleBg} backdrop-blur-md transition-colors duration-300`}></div>
-            
-            <div className="absolute inset-0 opacity-50 animate-pulse">
-              <div className={`absolute inset-8 md:inset-10 lg:inset-12 xl:inset-14 rounded-full ${pulseCircleBg} backdrop-blur-sm transition-colors duration-300`}></div>
-            </div>
-            
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-[70%] h-[70%] flex items-center justify-center p-4">
-                <img 
-                  src={image} 
-                  alt="Netlab Logo" 
-                  className="max-w-[90%] max-h-[90%] object-contain rounded-full transition-all duration-300"
-                />
+          </div>
+          
+          <div className="w-full lg:w-2/5 flex justify-center lg:justify-end">
+            <div className="relative aspect-square w-[16rem] sm:w-[18rem] md:w-[22rem] lg:w-[26rem] xl:w-[32rem]">
+              <div className={`absolute inset-0 rounded-full ${circleColor} shadow-2xl ${shadowColor} overflow-hidden transition-all duration-300`}>
+                <div className={`absolute top-[10%] right-[10%] bottom-[10%] left-[10%] rounded-full ${innerCircleBg} backdrop-blur-md transition-colors duration-300`}></div>
+                
+                <div className="absolute inset-0 opacity-50 animate-pulse">
+                  <div className={`absolute top-[8%] right-[8%] bottom-[8%] left-[8%] rounded-full ${pulseCircleBg} backdrop-blur-sm transition-colors duration-300`}></div>
+                </div>
+                
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-[70%] h-[70%] flex items-center justify-center p-4">
+                    <img 
+                      src={image} 
+                      alt="Netlab Logo" 
+                      className="max-w-[90%] max-h-[90%] object-contain rounded-full transition-all duration-300"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-
   );
 }

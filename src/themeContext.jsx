@@ -7,16 +7,17 @@ export function useTheme() {
 }
 
 export function ThemeProvider({ children }) {
-  // Check localStorage first, then system preference
+  // Check localStorage first, then default to dark mode
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('darkMode');
       if (saved !== null) {
         return JSON.parse(saved);
       }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+      // Default to dark mode instead of system preference
+      return true;
     }
-    return false;
+    return true; // Default to dark mode for SSR
   });
 
   // Toggle the theme

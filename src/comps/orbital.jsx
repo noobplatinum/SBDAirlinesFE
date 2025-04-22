@@ -23,18 +23,22 @@ export default function Orbital({ mainCircleSize = 320, orbitalImages = [] }) {
     };
   }, []);
   
-  const getResponsiveSize = (baseSize) => {
-    if (viewportSize >= 1920) {
-      return baseSize * 1.15;
-    } else if (viewportSize >= 1536) { 
-      return baseSize * 1.1;
-    } else if (viewportSize >= 1280) { 
-      return baseSize * 1.05;
-    }
-    return baseSize;
+  const getOrbitMultiplier = () => {
+    if (viewportSize >= 1536) return 0.9;      
+    if (viewportSize >= 1280) return 0.85;    
+    if (viewportSize >= 768) return 0.8;      
+    if (viewportSize >= 640) return 0.75;     
+    return 0.7;                                
   };
   
-  // Theme-based gradient styles
+  const getSubcircleMultiplier = () => {
+    if (viewportSize >= 1536) return 0.6;      
+    if (viewportSize >= 1280) return 0.55;    
+    if (viewportSize >= 768) return 0.5;      
+    if (viewportSize >= 640) return 0.45;     
+    return 0.4;                               
+  };
+  
   const orbitalGradients = [
     darkMode 
       ? 'linear-gradient(to bottom, rgb(219, 39, 119), rgb(16, 185, 129))' 
@@ -49,11 +53,9 @@ export default function Orbital({ mainCircleSize = 320, orbitalImages = [] }) {
       : 'linear-gradient(to bottom, rgb(124, 58, 237), rgb(251, 191, 36))'
   ];
   
-  const responsiveMainSize = getResponsiveSize(mainCircleSize);
-  const subcircleSize = responsiveMainSize * 0.6;
-  const orbitRadius = responsiveMainSize * 0.9;
+  const subcircleSize = mainCircleSize * getSubcircleMultiplier();
+  const orbitRadius = mainCircleSize * getOrbitMultiplier();
   
-  // Adjust shadow based on theme
   const orbitalShadow = darkMode
     ? '0 0 15px rgba(59, 130, 246, 0.7)' 
     : '0 0 15px rgba(59, 130, 246, 0.4)';
@@ -75,7 +77,7 @@ export default function Orbital({ mainCircleSize = 320, orbitalImages = [] }) {
             }}
           >
             {orbitalImages[0] ? (
-              <div className="w-full h-full p-8 flex items-center justify-center">
+              <div className="w-full h-full p-2 sm:p-4 md:p-6 lg:p-8 flex items-center justify-center">
                 <img 
                   src={orbitalImages[0]} 
                   alt="Orbital 1" 
@@ -103,7 +105,7 @@ export default function Orbital({ mainCircleSize = 320, orbitalImages = [] }) {
             }}
           >
             {orbitalImages[1] ? (
-              <div className="w-full h-full p-8 flex items-center justify-center">
+              <div className="w-full h-full p-2 sm:p-4 md:p-6 lg:p-8 flex items-center justify-center">
                 <img 
                   src={orbitalImages[1]} 
                   alt="Orbital 2" 
@@ -131,7 +133,7 @@ export default function Orbital({ mainCircleSize = 320, orbitalImages = [] }) {
             }}
           >
             {orbitalImages[2] ? (
-              <div className="w-full h-full p-8 flex items-center justify-center">
+              <div className="w-full h-full p-2 sm:p-4 md:p-6 lg:p-8 flex items-center justify-center">
                 <img 
                   src={orbitalImages[2]} 
                   alt="Orbital 3" 

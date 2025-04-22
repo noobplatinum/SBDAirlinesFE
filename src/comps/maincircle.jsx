@@ -19,12 +19,13 @@ export default function MainCircle() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   
-  const baseCircleSize = 240;
+  // Updated base size calculation with more significant reduction for small screens
   const getCircleSize = () => {
-    if (screenSize >= 1920) return baseCircleSize * 1.5;
-    if (screenSize >= 1536) return baseCircleSize * 1.3;
-    if (screenSize >= 1280) return baseCircleSize * 1.15;
-    return baseCircleSize;
+    if (screenSize >= 1920) return 360; // xl screens
+    if (screenSize >= 1280) return 276; // lg screens
+    if (screenSize >= 768) return 220;  // md screens
+    if (screenSize >= 640) return 180;  // sm screens
+    return 150;                         // xs screens - significantly smaller
   };
   
   const mainCircleSize = getCircleSize();
@@ -45,7 +46,7 @@ export default function MainCircle() {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1 className={`mb-60 sm:mb-60 md:mb-68 lg:mb-72 xl:mb-76 2xl:mb-[400px] text-4xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold ${titleColor} text-center enable-scroll transition-colors duration-300`}>
+      <h1 className={`mb-40 sm:mb-44 md:mb-52 lg:mb-60 xl:mb-72 text-3xl sm:text-4xl md:text-5xl font-bold ${titleColor} text-center enable-scroll transition-colors duration-300`}>
         <span>Main Labs</span>
       </h1>
       
@@ -55,7 +56,7 @@ export default function MainCircle() {
           style={{ width: `${mainCircleSize}px`, height: `${mainCircleSize}px` }}
         >
           <div className={`absolute inset-0 rounded-full ${backdropColor} backdrop-blur-sm transition-colors duration-300`}></div>
-          <div className="flex items-center justify-center z-10 rounded-full p-8">
+          <div className="flex items-center justify-center z-10 rounded-full p-4 sm:p-6 md:p-8">
             <img 
               src={netlabLogo} 
               alt="Logo" 
