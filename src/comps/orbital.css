@@ -4,7 +4,6 @@
     height: 100%;
     top: 0;
     left: 0;
-    pointer-events: none;
 }
   
 .subcircle {
@@ -22,7 +21,6 @@
     background: linear-gradient(135deg, #3b82f6, #8b5cf6);
     z-index: 5;
     cursor: pointer;
-    pointer-events: auto;
 }
   
 .subcircle.visible {
@@ -34,7 +32,6 @@
     color: white;
 }
 
-/* Specific animations for each subcircle with different starting positions */
 .subcircle:nth-child(1) {
     animation: orbit1 40s linear infinite;
 }
@@ -47,30 +44,29 @@
     animation: orbit3 40s linear infinite;
 }
 
-/* Orbit animations with different starting positions but same speed */
 @keyframes orbit1 {
     from {
-        transform: translate(-50%, -50%) rotate(0deg) translateX(200px) rotate(0deg);
+        transform: translate(-50%, -50%) rotate(0deg) translateX(230px) rotate(0deg);
     }
     to {
-        transform: translate(-50%, -50%) rotate(360deg) translateX(200px) rotate(-360deg);
+        transform: translate(-50%, -50%) rotate(360deg) translateX(230px) rotate(-360deg);
     }
 }
 
 @keyframes orbit2 {
     from {
-        transform: translate(-50%, -50%) rotate(120deg) translateX(200px) rotate(-120deg);
+        transform: translate(-50%, -50%) rotate(120deg) translateX(230px) rotate(-120deg);
     }
     to {
-        transform: translate(-50%, -50%) rotate(480deg) translateX(200px) rotate(-480deg);
+        transform: translate(-50%, -50%) rotate(480deg) translateX(230px) rotate(-480deg);
     }
 }
 
 @keyframes orbit3 {
     from {
-        transform: translate(-50%, -50%) rotate(240deg) translateX(200px) rotate(-240deg);
+        transform: translate(-50%, -50%) rotate(240deg) translateX(230px) rotate(-240deg);
     }
     to {
-        transform: translate(-50%, -50%) rotate(600deg) translateX(200px) rotate(-600deg);
+        transform: translate(-50%, -50%) rotate(600deg) translateX(230px) rotate(-600deg);
     }
 }

@@ -7,6 +7,12 @@ export default function MainCircle() {
 
   return (
     <div className="flex flex-col items-center justify-center">
+      {/* Title moved above the circle */}
+      <h1 className="text-4xl font-bold text-white mb-6 text-center enable-scroll">
+        <span className="text-blue-400">hendy </span>
+        <span className="text-white">skizo</span>
+      </h1>
+      
       <div className="relative mb-8">
         <div 
           className="rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center shadow-xl glow"
@@ -24,14 +30,7 @@ export default function MainCircle() {
         </div>
       </div>
       
-      {/* Title and Subtitle */}
-      <h1 className="text-4xl font-bold text-white mb-4 text-center">
-        <span className="text-blue-400">hendy </span>
-        <span className="text-white">skizo</span>
-      </h1>
-      <p className="text-xl text-gray-300 max-w-lg text-center">
-        fix netleb tunduk junior
-      </p>
+      {/* Subtitle removed */}
     </div>
   );
 }

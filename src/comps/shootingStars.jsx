@@ -3,6 +3,7 @@ import './shootingStars.css';
 
 export default function ShootingStars() {
   return (
+    <div className="shooting-stars-container">
     <div className="night">
       {[...Array(30)].map((_, i) => {
         const computedTop = getComputedTopPosition(i);
@@ -16,6 +17,7 @@ export default function ShootingStars() {
           ></div>
         );
       })}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './orbital.css';
 
-export default function Orbital({ mainCircleSize = 240 }) {
+export default function Orbital({ mainCircleSize = 320 }) {
   const [visible, setVisible] = useState(false);
   
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function Orbital({ mainCircleSize = 240 }) {
   }, []);
   
   // Make subcircles 50% of main circle size (30% smaller than before)
-  const subcircleSize = mainCircleSize * 0.5; 
+  const subcircleSize = mainCircleSize * 0.7; 
   
   return (
     <div className="orbital-container">
