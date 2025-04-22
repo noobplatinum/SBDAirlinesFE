@@ -37,27 +37,6 @@ export default function Header() {
                     </div>
                 </div>
                 
-                <div className="hidden sm:flex items-center gap-2 md:gap-3 lg:gap-4">
-                    <div 
-                        onClick={() => scrollToSection('overview')}
-                        className={`cursor-pointer px-2 py-1 md:px-3 md:py-1.5 lg:px-4 lg:py-2 font-medium text-sm md:text-base lg:text-lg rounded-md ${darkMode ? 'text-gray-200 hover:text-blue-400' : 'text-gray-100 hover:text-blue-600'} hover:bg-opacity-10 hover:bg-blue-500 transition-all duration-200`}
-                    >
-                        Overview
-                    </div>
-                    <div 
-                        onClick={() => scrollToSection('labs')}
-                        className={`cursor-pointer px-2 py-1 md:px-3 md:py-1.5 lg:px-4 lg:py-2 font-medium text-sm md:text-base lg:text-lg rounded-md ${darkMode ? 'text-gray-200 hover:text-blue-400' : 'text-gray-100 hover:text-blue-600'} hover:bg-opacity-10 hover:bg-blue-500 transition-all duration-200`}
-                    >
-                        Labs
-                    </div>
-                    <div 
-                        onClick={() => scrollToSection('praktikum')}
-                        className={`cursor-pointer px-2 py-1 md:px-3 md:py-1.5 lg:px-4 lg:py-2 font-medium text-sm md:text-base lg:text-lg rounded-md ${darkMode ? 'text-gray-200 hover:text-blue-400' : 'text-gray-100 hover:text-blue-600'} hover:bg-opacity-10 hover:bg-blue-500 transition-all duration-200`}
-                    >
-                        Praktikum
-                    </div>
-                </div>
-                
                 <button 
                     onClick={toggleDarkMode}
                     aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}

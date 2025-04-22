@@ -6,6 +6,7 @@ import MainCircle from './comps/maincircle';
 import BioSection from './comps/biosection';
 import Footer from './comps/footer';
 import { ThemeProvider } from './themeContext';
+import NavigationButtons from './comps/navButton';
 
 export default function App() {
   return (
@@ -15,7 +16,7 @@ export default function App() {
         <ShootingStars />
       </div>
       <Header />
-      
+      <NavigationButtons />
       <main className="relative z-10">
         <section id="overview">
           <GeneralSection 
