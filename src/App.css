@@ -86,3 +86,22 @@ body {
   z-index: auto !important;
   position: relative !important;
 }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+html {
+  scroll-behavior: smooth;
+}
