@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000'; 
+const API_URL = 'http://cs9-jesayadavidgnp-be.vercel.app/store/getAll'; 
 
 const api = axios.create({
   baseURL: API_URL,
