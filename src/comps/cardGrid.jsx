@@ -5,7 +5,7 @@ import { useTheme } from '../themeContext';
 
 export default function CardGrid() {
   const { darkMode } = useTheme();
-  
+
   return (
     <>
       <div className="mb-16 text-center">
