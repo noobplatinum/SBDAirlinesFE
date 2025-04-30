@@ -22,7 +22,7 @@ export default function Stores() {
     const fetchStores = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('https://cs9-jesayadavidgnp-be.vercel.app/store/getAll');
+        const response = await axios.get('https://backend-sbd-9.vercel.app/store/getAll');
         
         if (response.data && response.data.success) {
           setStores(response.data.payload);
