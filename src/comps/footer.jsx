@@ -14,16 +14,16 @@ export default function Footer() {
       <div className="min-w-full mx-auto flex justify-between items-center px-4 sm:px-5 md:px-6 lg:px-8">
         <div className="flex space-x-2 sm:space-x-4 md:space-x-6">
           <i className={`text-xs sm:text-sm md:text-base transition-colors duration-300 ${darkMode ? "text-white/70" : "text-slate-700"}`}>
-            &copy; 2023 SBD News. All rights reserved.
+            &copy; 2025 SBD Store. All rights reserved.
           </i>
         </div>
         
         <div className="text-right">
           <h3 className={`text-lg sm:text-l md:text-2xl mb-1 sm:mb-1.5 md:mb-2 transition-colors duration-300 ${darkMode ? "text-white/90" : "text-slate-800"}`}>
-            SBD News
+            SBD Store
           </h3>
           <p className={`text-xs sm:text-sm md:text-base transition-colors duration-300 ${darkMode ? "text-white/60" : "text-slate-600"}`}>
-            Sumber berita online terpercaya
+            Jual beli aman terpercaya
           </p>
         </div>
       </div>

@@ -104,7 +104,7 @@ export default function StoreItems() {
           <div className="flex justify-center mb-4">
             <div className={`h-1 w-24 rounded-full ${darkMode ? 'bg-blue-500' : 'bg-blue-600'}`}></div>
           </div>
-          
+          <div className="mt-[100px]"></div>
           <h1 className={`text-4xl md:text-5xl font-bold mb-6 relative ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             Store Items
             <span className="absolute -left-3 -top-3 w-10 h-10 rounded-full opacity-20 bg-blue-500 -z-10 hidden md:block"></span>

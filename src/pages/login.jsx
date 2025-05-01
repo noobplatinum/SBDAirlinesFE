@@ -18,48 +18,33 @@ export default function Login() {
     setError('');
     
     try {
-      // Use the existing API service to call the login endpoint
       const response = await userService.login(email, password);
       const data = response.data;
       
       if (data.success) {
         setSuccessMsg('Login berhasil! Redirecting...');
-        // Store user data in localStorage for persistence across page refreshes
         localStorage.setItem('user', JSON.stringify(data.payload));
         localStorage.setItem('isLoggedIn', 'true');
         
-        // Wait a moment and redirect
         setTimeout(() => {
           navigate('/');
         }, 1500);
       } else {
-        // API returned failure
         setError(data.message || 'Login gagal, silakan coba lagi.');
       }
     } catch (err) {
       console.error('Login error:', err);
       
-      // Handle different types of errors
       if (err.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         setError(err.response.data?.message || 'Invalid email or password');
       } else if (err.request) {
-        // The request was made but no response was received
         setError('No response from server. Please check your connection.');
       } else {
-        // Something happened in setting up the request that triggered an Error
         setError('Error setting up request: ' + err.message);
       }
     } finally {
       setIsLoading(false);
     }
-  };
-  
-  // For demo purposes - you can remove this in production
-  const fillDemoCredentials = () => {
-    setEmail('netlab@mail.com');
-    setPassword('modul6');
   };
   
   return (
@@ -163,17 +148,6 @@ export default function Login() {
               </>
             )}
           </button>
-          
-          {/* Demo button - remove in production */}
-          <div className="mt-2 text-center">
-            <button 
-              type="button" 
-              onClick={fillDemoCredentials}
-              className={`text-sm ${darkMode ? 'text-blue-300' : 'text-blue-600'} hover:underline`}
-            >
-              Use demo credentials
-            </button>
-          </div>
           
           <div className="mt-4 text-center">
             <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>

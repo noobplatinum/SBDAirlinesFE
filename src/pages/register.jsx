@@ -17,7 +17,6 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     
-    // Basic validation
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
@@ -27,18 +26,15 @@ export default function Register() {
     setError('');
     
     try {
-      // According to your API docs, we need to call /user/register with name, email, password as query params
       const response = await userService.register(name, email, password);
       const data = response.data;
       
       if (data.success) {
         setSuccessMsg('Registration successful! Logging you in...');
         
-        // Automatically log the user in after registration
         localStorage.setItem('user', JSON.stringify(data.payload));
         localStorage.setItem('isLoggedIn', 'true');
         
-        // Wait a moment and redirect
         setTimeout(() => {
           navigate('/');
         }, 1500);

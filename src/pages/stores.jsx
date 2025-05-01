@@ -10,7 +10,6 @@ export default function Stores() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Check if user is logged in
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     if (!isLoggedIn) {
@@ -18,7 +17,6 @@ export default function Stores() {
       return;
     }
 
-    // Fetch stores data
     const fetchStores = async () => {
       try {
         setLoading(true);
@@ -44,7 +42,6 @@ export default function Stores() {
     navigate(`/store/${storeId}`);
   };
 
-  // Format date to a more readable format
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
@@ -104,9 +101,6 @@ export default function Stores() {
                     <h2 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {store.name}
                     </h2>
-                    <div className={`text-sm mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                      Store ID: {store.id.substring(0, 8)}...
-                    </div>
                   </div>
                   <div className={`px-3 py-1 rounded-full text-xs font-medium ${
                     darkMode ? 'bg-blue-900/30 text-blue-300' : 'bg-blue-100 text-blue-800'
@@ -128,11 +122,11 @@ export default function Stores() {
                 <div className={`mt-auto pt-4 border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
                   <div className="flex justify-between">
                     <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                      <span>Created: {formatDate(store.created_at)}</span>
+                      <span>Berdiri sejak {formatDate(store.created_at)}</span>
                     </div>
                     <button 
                         onClick={(e) => {
-                        e.stopPropagation(); // Prevent triggering the parent onClick
+                        e.stopPropagation(); 
                         navigateToStoreItems(store.id);
                         }}
                         className={`text-sm font-medium ${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}
