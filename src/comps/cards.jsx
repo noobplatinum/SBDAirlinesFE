@@ -24,7 +24,7 @@ export default function Card({ title, body, image }) {
       
       <div className="px-5 pb-5 mt-auto">
         <button className={`px-4 py-2 rounded-md ${darkMode ? 
-          'bg-blue-600 hover:bg-blue-700 text-white' : 
+          'bg-blue-600 hover:bg-blue-600 text-white' : 
           'bg-blue-500 hover:bg-blue-600 text-white'
         } transition-colors duration-300 w-full font-medium`}>
           Read More

@@ -14,17 +14,15 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo/Title */}
           <Link 
             to="/" 
             className={`text-2xl font-bold ${
               darkMode ? 'text-white' : 'text-gray-900'
             }`}
           >
-            SBD Store
+            Netleb Notes
           </Link>
           
-          {/* Navigation Links */}
           <div className="flex items-center gap-8">
             <Link 
               to="/" 
@@ -45,12 +43,12 @@ export default function Navbar() {
             </Link>
             
             <Link 
-              to="/stores" 
+              to="/notes" 
               className={`font-medium ${
                 darkMode ? 'text-white hover:text-blue-400' : 'text-gray-900 hover:text-blue-600'
               }`}
             >
-              Stores
+              Notes
             </Link>            
             <ThemeToggle />
           </div>

@@ -105,3 +105,21 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+/* Add this to the bottom of your App.css file */
+
+.tag-content {
+  display: inline-flex;
+  transition: transform 0.5s ease-out;
+  padding-right: 16px; /* Add some padding at the end for smoother scrolling */
+}
+
+/* Add a nice transition when hovering over tags */
+.tag-content span {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.tag-content span:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}

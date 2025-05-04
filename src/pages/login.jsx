@@ -54,7 +54,7 @@ export default function Login() {
           ? 'bg-gray-800/90 text-white backdrop-blur-sm border border-gray-700' 
           : 'bg-white/90 text-gray-800 backdrop-blur-sm border border-gray-200'
       }`}>
-        <h2 className="text-3xl font-bold mb-6 text-center">Login to SBD Store</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">Login to Netleb Notes</h2>
         
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 shadow">
