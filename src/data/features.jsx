@@ -1,32 +1,32 @@
 export const features = [
     {
-      icon: "📝",
-      title: "Rich Text Editor",
-      description: "Make complete and easy to understand notes with our powerful text editor"
+      icon: "✈️",
+      title: "Global Destinations",
+      description: "Fly to over 100 destinations worldwide with our extensive flight network"
     },
     {
-      icon: "🏷️",
-      title: "Tags",
-      description: "Organize your notes with custom tags to categorize and organize"
+      icon: "💺",
+      title: "Premium Comfort",
+      description: "Enjoy spacious seating with extra legroom and reclining options"
     },
     {
       icon: "🔒",
-      title: "Secure Storage",
-      description: "Safe storage using the latest encryption + PostgreSQL database"
+      title: "Secure Booking",
+      description: "Safe and secure payment processing with instant confirmation"
     },
     {
-      icon: "🔄",
-      title: "Access Anywhere",
-      description: "Access your notes from any device with real-time synchronization"
+      icon: "🍽️",
+      title: "Gourmet Dining",
+      description: "Experience fine dining at 30,000 feet with our chef-curated meals"
     },
     {
-      icon: "🔍",
-      title: "Powerful Search (gimik bang gk keburu hehe)",
-      description: "Find anything instantly..."
+      icon: "⏱️",
+      title: "On-time Performance",
+      description: "Consistently rated for punctuality and reliability"
     },
     {
       icon: "🌙",
-      title: "Dark Mode",
-      description: "Easy on the eyes with beautiful light and dark themes"
+      title: "Night Flights",
+      description: "Comfortable red-eye options with amenities for restful travel"
     }
   ];

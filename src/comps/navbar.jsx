@@ -13,14 +13,13 @@ export default function Navbar() {
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          <Link 
+        <div className="flex items-center justify-between h-16 md:h-20">          <Link 
             to="/" 
-            className={`text-2xl font-bold ${
+            className={`text-2xl font-bold flex items-center ${
               darkMode ? 'text-white' : 'text-gray-900'
             }`}
           >
-            Netleb Notes
+            <span className="mr-2">✈️</span> SBD Airlines
           </Link>
           
           <div className="flex items-center gap-8">
@@ -32,14 +31,13 @@ export default function Navbar() {
             >
               Home
             </Link>
-            
-            <Link 
+              <Link 
               to="/login" 
               className={`font-medium ${
                 darkMode ? 'text-white hover:text-blue-400' : 'text-gray-900 hover:text-blue-600'
               }`}
             >
-              Login
+              Book Flight
             </Link>
             
             <Link 
@@ -48,8 +46,8 @@ export default function Navbar() {
                 darkMode ? 'text-white hover:text-blue-400' : 'text-gray-900 hover:text-blue-600'
               }`}
             >
-              Notes
-            </Link>            
+              My Trips
+            </Link>
             <ThemeToggle />
           </div>
         </div>

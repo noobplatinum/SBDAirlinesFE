@@ -8,13 +8,12 @@ export default function TestimonialsSection() {
   return (
     <section className="py-20 relative z-20">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
-            Netleb User Opinions
+        <div className="text-center mb-16">          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
+            What Our Passengers Say
           </h2>
           <div className="h-1 w-24 bg-indigo-500 mx-auto rounded-full mb-6"></div>
           <p className={`max-w-2xl mx-auto ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
-            Hundreds of satisfied users, from casuals to fix netlebs.
+            Thousands of satisfied travelers choose SBD Airlines for their journeys.
           </p>
         </div>
         
@@ -65,9 +64,8 @@ export default function TestimonialsSection() {
           ))}
         </div>
         
-        <div className="mt-16 text-center">
-          <p className={`text-lg font-medium mb-6 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
-            Start documenting your journey here!
+        <div className="mt-16 text-center">          <p className={`text-lg font-medium mb-6 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+            Begin your journey with us today!
           </p>
           <a 
             href="/register" 
@@ -79,7 +77,7 @@ export default function TestimonialsSection() {
               }
             `}
           >
-            Register for Free
+            Join Frequent Flyer Program
           </a>
         </div>
       </div>

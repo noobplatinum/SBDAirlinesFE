@@ -19,9 +19,8 @@ export default function FeaturesSection() {
               <span className="absolute -left-3 -top-3 w-10 h-10 rounded-full opacity-20 bg-indigo-500 -z-10 hidden md:block"></span>
             </h2>
           </div>
-          
-          <p className={`text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Discover what makes our <span className="text-indigo-500 font-medium">note-taking app</span> special
+            <p className={`text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            Discover what makes <span className="text-indigo-500 font-medium">SBD Airlines</span> your premier choice for air travel
           </p>
         </div>
         
@@ -42,8 +41,7 @@ export default function FeaturesSection() {
         </div>
         
         {/* Get started button */}
-        <div className="flex justify-center mt-12">
-          <a 
+        <div className="flex justify-center mt-12">          <a 
             href="/login"
             className={`
               px-8 py-3.5 rounded-lg text-white font-semibold text-lg
@@ -57,9 +55,9 @@ export default function FeaturesSection() {
             `}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
             </svg>
-            Get Started
+            Book Now
           </a>
         </div>
       </div>

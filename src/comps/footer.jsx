@@ -4,24 +4,23 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const { darkMode } = useTheme();
-
   const footerLinks = [
     {
-      title: "Product",
+      title: "Flights",
       links: [
-        { name: "Features", href: "#" },
-        { name: "Pricing", href: "/" },
-        { name: "Mobile App", href: "/" },
-        { name: "Templates", href: "/" }
+        { name: "Destinations", href: "#" },
+        { name: "Schedules", href: "/" },
+        { name: "Flight Status", href: "/" },
+        { name: "Special Offers", href: "/" }
       ]
     },
     {
-      title: "Resources",
+      title: "Services",
       links: [
-        { name: "Blog", href: "/" },
-        { name: "Help Center", href: "/" },
-        { name: "Guides", href: "/" },
-        { name: "API Docs", href: "/" }
+        { name: "Business Class", href: "/" },
+        { name: "First Class", href: "/" },
+        { name: "Baggage Policy", href: "/" },
+        { name: "In-flight Meals", href: "/" }
       ]
     },
     {
@@ -43,13 +42,12 @@ export default function Footer() {
         : "bg-gray-50 border-t border-indigo-300/30"}
     `}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          <div>
-            <h3 className={`text-2xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
-              Netleb Notes
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">          <div>
+            <h3 className={`text-2xl font-bold mb-4 flex items-center ${darkMode ? "text-white" : "text-gray-900"}`}>
+              <span className="mr-2">✈️</span> SBD Airlines
             </h3>
             <p className={`mb-4 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-              Modern and powerful note-taking platform for you and your team.
+              Premium air travel experience with comfort and reliability.
             </p>
             <div className="flex space-x-4">
               {[
@@ -127,9 +125,8 @@ export default function Footer() {
         </div>
 
         <div className={`pt-8 mt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4 
-          ${darkMode ? "border-gray-800 text-gray-400" : "border-gray-200 text-gray-600"}`}>
-          <p className="text-sm">
-            &copy; 2025 Netleb Notes. All rights reserved.
+          ${darkMode ? "border-gray-800 text-gray-400" : "border-gray-200 text-gray-600"}`}>          <p className="text-sm">
+            &copy; 2025 SBD Airlines. All rights reserved.
           </p>
           <div className="flex space-x-6 text-sm">
             <Link to="/" className={`hover:${darkMode ? "text-indigo-400" : "text-indigo-600"}`}>

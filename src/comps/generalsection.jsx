@@ -3,8 +3,8 @@ import { useTheme } from '../themeContext';
 import { Link } from 'react-router-dom';
 
 export default function GeneralSection({ 
-  title = "Netleb Notes", 
-  subtitle = "Capture your thoughts, capture your flags!",
+  title = "SBD Airlines", 
+  subtitle = "Fly with comfort, land with confidence!",
   showLoginButton = true
 }) {
   const { darkMode } = useTheme();
@@ -34,8 +34,7 @@ export default function GeneralSection({
   const textColor = darkMode ? "text-white" : "text-gray-800";
   const subtitleColor = darkMode ? "text-indigo-200/90" : "text-indigo-700/80";
   const shadowColor = darkMode ? "shadow-indigo-500/30" : "shadow-indigo-300/30";
-  
-  const noteCards = [
+    const noteCards = [
     { color: darkMode ? "bg-indigo-800" : "bg-indigo-100", rotation: "rotate-3" },
     { color: darkMode ? "bg-purple-800" : "bg-purple-100", rotation: "rotate-[-2deg]" },
     { color: darkMode ? "bg-blue-800" : "bg-blue-100", rotation: "rotate-[5deg]" },
@@ -55,8 +54,7 @@ export default function GeneralSection({
             
             {showLoginButton && (
               <div className="mt-8 flex justify-center lg:justify-start">
-                {!isLoggedIn ? (
-                  <Link 
+                {!isLoggedIn ? (                  <Link 
                     to="/login" 
                     className={`
                       px-8 py-3.5 rounded-full text-white font-semibold text-lg
@@ -70,12 +68,11 @@ export default function GeneralSection({
                     `}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Start Note Taking
+                    Book Your Flight
                   </Link>
-                ) : (
-                  <button 
+                ) : (                  <button 
                     onClick={handleLogout}
                     className={`
                       px-8 py-3.5 rounded-full text-white font-semibold text-lg
@@ -91,16 +88,14 @@ export default function GeneralSection({
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                     </svg>
-                    Logout
+                    End Journey
                   </button>
                 )}
               </div>
             )}
           </div>
-          
-          <div className="w-full lg:w-2/5 flex justify-center lg:justify-end">
-            <div className="relative w-[18rem] h-[18rem] sm:w-[22rem] sm:h-[22rem] md:w-[24rem] md:h-[24rem]">
-              {noteCards.map((card, index) => (
+            <div className="w-full lg:w-2/5 flex justify-center lg:justify-end">
+            <div className="relative w-[18rem] h-[18rem] sm:w-[22rem] sm:h-[22rem] md:w-[24rem] md:h-[24rem]">              {noteCards.map((card, index) => (
                 <div 
                   key={index}
                   className={`absolute inset-0 rounded-lg ${card.color} shadow-xl ${shadowColor} ${card.rotation} 
@@ -114,20 +109,81 @@ export default function GeneralSection({
                   }}
                 >
                   <div className={`${darkMode ? 'text-white/80' : 'text-gray-700'} w-full`}>
+                    {/* Ticket header with airline logo */}
                     <div className="flex justify-between items-center mb-4">
-                      <div className={`h-3 w-20 ${darkMode ? 'bg-indigo-500/30' : 'bg-indigo-500/20'} rounded-full`}></div>
-                      <div className="flex space-x-1">
-                        {[...Array(3)].map((_, i) => (
-                          <div key={i} className={`h-2 w-2 rounded-full ${darkMode ? 'bg-white/30' : 'bg-gray-400/30'}`}></div>
+                      <div className="flex items-center">
+                        <span className="text-xl mr-2">✈️</span>
+                        <div className="text-xs font-bold">SBD AIRLINES</div>
+                      </div>
+                      <div className={`text-xs ${darkMode ? 'text-indigo-300' : 'text-indigo-600'} font-semibold`}>
+                        BOARDING PASS
+                      </div>
+                    </div>
+                    
+                    {/* Flight route */}
+                    <div className="flex justify-between items-center mb-4">
+                      <div className="text-center">
+                        <div className="text-xs opacity-70">FROM</div>
+                        <div className="text-xl font-bold">JKT</div>
+                      </div>
+                      
+                      <div className="flex-1 flex justify-center items-center px-2">
+                        <div className={`h-[1px] flex-grow ${darkMode ? 'bg-white/20' : 'bg-gray-400/40'}`}></div>
+                        <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mx-1 ${darkMode ? 'text-white/60' : 'text-gray-600/70'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14m-7-7l7 7-7 7" />
+                        </svg>
+                        <div className={`h-[1px] flex-grow ${darkMode ? 'bg-white/20' : 'bg-gray-400/40'}`}></div>
+                      </div>
+                      
+                      <div className="text-center">
+                        <div className="text-xs opacity-70">TO</div>
+                        <div className="text-xl font-bold">BDG</div>
+                      </div>
+                    </div>
+                    
+                    {/* Ticket details */}
+                    <div className="grid grid-cols-3 gap-2 mb-3 text-xs">
+                      <div>
+                        <div className="opacity-70">FLIGHT</div>
+                        <div className="font-semibold">SBD{100 + index}</div>
+                      </div>
+                      <div>
+                        <div className="opacity-70">DATE</div>
+                        <div className="font-semibold">15 MAY</div>
+                      </div>
+                      <div>
+                        <div className="opacity-70">TIME</div>
+                        <div className="font-semibold">09:${15 + index * 15}</div>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-3 gap-2 mb-4 text-xs">
+                      <div>
+                        <div className="opacity-70">GATE</div>
+                        <div className="font-semibold">B${index + 1}</div>
+                      </div>
+                      <div>
+                        <div className="opacity-70">SEAT</div>
+                        <div className="font-semibold">${index === 0 ? '12A' : index === 1 ? '15C' : '20F'}</div>
+                      </div>
+                      <div>
+                        <div className="opacity-70">CLASS</div>
+                        <div className="font-semibold">${index === 0 ? 'FIRST' : index === 1 ? 'BUSNS' : 'ECON'}</div>
+                      </div>
+                    </div>
+                    
+                    {/* Barcode */}
+                    <div className="flex justify-center mt-2">
+                      <div className={`h-6 w-28 flex justify-between items-end ${darkMode ? 'bg-indigo-500/0' : 'bg-indigo-500/0'}`}>
+                        {[...Array(12)].map((_, i) => (
+                          <div 
+                            key={i} 
+                            className={`w-1.5 ${darkMode ? 'bg-white/40' : 'bg-gray-700/70'}`}
+                            style={{ height: `${Math.floor(Math.random() * 20) + 10}px` }}
+                          ></div>
                         ))}
                       </div>
                     </div>
-                    <div className={`h-2 w-full ${darkMode ? 'bg-white/20' : 'bg-gray-400/20'} rounded-full mb-3`}></div>
-                    <div className={`h-2 w-3/4 ${darkMode ? 'bg-white/20' : 'bg-gray-400/20'} rounded-full mb-3`}></div>
-                    <div className={`h-2 w-5/6 ${darkMode ? 'bg-white/20' : 'bg-gray-400/20'} rounded-full mb-3`}></div>
-                    <div className={`h-2 w-2/3 ${darkMode ? 'bg-white/20' : 'bg-gray-400/20'} rounded-full mb-3`}></div>
-                    <div className={`h-2 w-3/5 ${darkMode ? 'bg-white/20' : 'bg-gray-400/20'} rounded-full mb-3`}></div>
-                    <div className={`h-6 w-8 ${darkMode ? 'bg-indigo-500/40' : 'bg-indigo-500/30'} rounded mt-6`}></div>
                   </div>
                 </div>
               ))}

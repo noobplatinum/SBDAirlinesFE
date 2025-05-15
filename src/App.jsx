@@ -7,8 +7,9 @@ import Footer from './comps/footer';
 import Home from './pages/home';
 import Login from './pages/login';
 import Register from './pages/register';
+import AdminPanel from './pages/adminPage';
 import './App.css';
-import Notes from './pages/notes';
+// import Notes from './pages/notes';
 
 export default function App() {
   return (
@@ -27,7 +28,8 @@ export default function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/notes" element={<Notes/>} />
+                <Route path="/admin" element={<AdminPanel />} />
+                
               </Routes>
             </main>
             

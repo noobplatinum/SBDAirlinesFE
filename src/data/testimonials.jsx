@@ -2,21 +2,21 @@ import avatarpath from "../assets/avatar.jpg";
 
 export const testimonials = [
     {
-      quote: "The ability to access my notes across all my devices has been a game-changer for my productivity workflow",
-      author: "Maddog greget coeg",
-      position: "Google Maps Engineer",
+      quote: "The in-flight experience with SBD Airlines was exceptional. From the comfortable seating to the attentive cabin crew, every detail was perfect.",
+      author: "James Wilson",
+      position: "Business Traveler",
       avatar: avatarpath
     },
     {
-      quote: "The ability to access my notes across all my devices has been a game-changer for my productivity workflow",
-      author: "Udin Gambut",
-      position: "Ancaman Engineer",
+      quote: "I've flown with many airlines, but SBD Airlines stands out for their punctuality and seamless check-in process. Will definitely fly again!",
+      author: "Sarah Chen",
+      position: "Frequent Flyer",
       avatar: avatarpath
     },
     {
-      quote: "The ability to access my notes across all my devices has been a game-changer for my productivity workflow",
-      author: "Sendy GAmbut",
-      position: "Project Engineer",
+      quote: "The first-class amenities were beyond my expectations. The privacy, dining options, and entertainment made my long-haul flight a pleasure.",
+      author: "Robert Miller",
+      position: "International Consultant",
       avatar: avatarpath
     }
   ];

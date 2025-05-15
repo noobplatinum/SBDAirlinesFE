@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { userService } from '../services/api';
+import { authService } from '../services/api';
 import { useTheme } from '../themeContext';
 
 export default function Register() {
+  const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [nomor_identitas, setNomorIdentitas] = useState('');
+  const [nomor_telepon, setNomorTelepon] = useState('');
+  const [kewarganegaraan, setKewarganegaraan] = useState('Indonesia');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -26,26 +30,40 @@ export default function Register() {
     setError('');
     
     try {
-      const response = await userService.register(name, email, password);
-      const data = response.data;
+      // Create user data object based on our new API structure
+      const userData = {
+        username,
+        email,
+        password,
+        name,
+        nomor_identitas,
+        nomor_telepon,
+        kewarganegaraan,
+        role: 'admin' // Default role for registration
+      };
       
-      if (data.success) {
+      // Using authService from our API instead of userService
+      const response = await authService.register(userData);
+      
+      // Check registration success
+      if (response.data && response.data.user) {
         setSuccessMsg('Registration successful! Logging you in...');
         
-        localStorage.setItem('user', JSON.stringify(data.payload));
+        // Store user info in localStorage
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         localStorage.setItem('isLoggedIn', 'true');
         
         setTimeout(() => {
           navigate('/');
         }, 1500);
       } else {
-        setError(data.message || 'Registration failed. Please try again.');
+        setError('Registration failed. Please try again.');
       }
     } catch (err) {
       console.error('Registration error:', err);
       
       if (err.response) {
-        setError(err.response.data?.message || 'Registration failed. Email may already be in use.');
+        setError(err.response.data?.message || 'Registration failed. Username or email may already be in use.');
       } else if (err.request) {
         setError('No response from server. Please check your connection.');
       } else {
@@ -89,6 +107,25 @@ export default function Register() {
         
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
+            <label htmlFor="username" className={`block mb-2 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className={`w-full px-4 py-3 border rounded-lg ${
+                darkMode 
+                  ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500' 
+                  : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500'
+              } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200`}
+              required
+              placeholder="your_username"
+            />
+          </div>
+          
+          <div>
             <label htmlFor="name" className={`block mb-2 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
               Full Name
             </label>
@@ -103,7 +140,7 @@ export default function Register() {
                   : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500'
               } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200`}
               required
-              placeholder="Your name"
+              placeholder="Your full name"
             />
           </div>
           
@@ -123,6 +160,61 @@ export default function Register() {
               } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200`}
               required
               placeholder="your@email.com"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="nomor_identitas" className={`block mb-2 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+              ID Number (KTP/Passport)
+            </label>
+            <input
+              type="text"
+              id="nomor_identitas"
+              value={nomor_identitas}
+              onChange={(e) => setNomorIdentitas(e.target.value)}
+              className={`w-full px-4 py-3 border rounded-lg ${
+                darkMode 
+                  ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500' 
+                  : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500'
+              } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200`}
+              placeholder="Your ID number (optional)"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="nomor_telepon" className={`block mb-2 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+              Phone Number
+            </label>
+            <input
+              type="text"
+              id="nomor_telepon"
+              value={nomor_telepon}
+              onChange={(e) => setNomorTelepon(e.target.value)}
+              className={`w-full px-4 py-3 border rounded-lg ${
+                darkMode 
+                  ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500' 
+                  : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500'
+              } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200`}
+              placeholder="Your phone number (optional)"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="kewarganegaraan" className={`block mb-2 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+              Nationality
+            </label>
+            <input
+              type="text"
+              id="kewarganegaraan"
+              value={kewarganegaraan}
+              onChange={(e) => setKewarganegaraan(e.target.value)}
+              className={`w-full px-4 py-3 border rounded-lg ${
+                darkMode 
+                  ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500' 
+                  : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500'
+              } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200`}
+              required
+              placeholder="Your nationality"
             />
           </div>
           

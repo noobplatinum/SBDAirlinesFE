@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://backend-sbd-9-tutam.vercel.app';
+const API_URL = 'http://localhost:3000/api'; 
 
 const api = axios.create({
   baseURL: API_URL,
@@ -9,82 +9,77 @@ const api = axios.create({
   }
 });
 
-const uploadApi = axios.create({
-  baseURL: API_URL
-});
-
-export const userService = {
-  register: (name, email, password) => api.post('/user/register', { name, email, password }),
-  login: (email, password) => api.post('/user/login', { email, password }),
-  getUserById: (id) => api.get(`/user/${id}`),
-  updateUserProfile: (userData) => api.put('/user', userData),
-  deleteUserAccount: (id) => api.delete(`/user/${id}`)
+export const authService = {
+  register: (userData) => api.post('/auth/register', userData),
+  login: (credentials) => api.post('/auth/login', credentials),
+  logout: () => api.post('/auth/logout')
 };
 
-export const noteService = {
-  createNote: (noteData, imageFile) => {
-    if (imageFile) {
-      const formData = new FormData();
-      
-      Object.keys(noteData).forEach(key => {
-        if (Array.isArray(noteData[key])) {
-          noteData[key].forEach(value => formData.append(`${key}[]`, value));
-        } else {
-          formData.append(key, noteData[key]);
-        }
-      });
-      
-      formData.append('image', imageFile);
-      
-      return uploadApi.post('/note/create', formData);
-    } else {
-      return api.post('/note/create', noteData);
-    }
-  },
-  
-  updateNote: (noteData, imageFile, removeImage = false) => {
-    if (imageFile || removeImage) {
-      const formData = new FormData();
-      
-      Object.keys(noteData).forEach(key => {
-        if (Array.isArray(noteData[key])) {
-          noteData[key].forEach(value => formData.append(`${key}[]`, value));
-        } else {
-          formData.append(key, noteData[key]);
-        }
-      });
-      
-      if (imageFile) {
-        formData.append('image', imageFile);
-      }
-      
-      if (removeImage) {
-        formData.append('remove_image', 'true');
-      }
-      
-      return uploadApi.put('/note', formData);
-    } else {
-      return api.put('/note', noteData);
-    }
-  },
-  
-  getNotesByUserId: (userId) => api.get(`/note/user/${userId}`),
-  getArchivedNotes: (userId) => api.get(`/note/archived/${userId}`),
-  getNoteById: (id) => api.get(`/note/${id}`),
-  deleteNote: (id) => api.delete(`/note/${id}`)
+export const airlineService = {
+  getAllAirlines: () => api.get('/airlines'),
+  getAirlineById: (id) => api.get(`/airlines/${id}`),
+  createAirline: (airlineData) => api.post('/airlines', airlineData),
+  updateAirline: (id, airlineData) => api.put(`/airlines/${id}`, airlineData),
+  deleteAirline: (id) => api.delete(`/airlines/${id}`)
 };
 
-export const tagService = {
-  createTag: (tagData) => api.post('/tag/create', tagData),
-  getTagsByUserId: (userId) => api.get(`/tag/user/${userId}`),
-  getNotesByTagId: (tagId) => api.get(`/tag/notes/${tagId}`),
-  getTagById: (id) => api.get(`/tag/${id}`),
-  updateTag: (tagData) => api.put('/tag', tagData),
-  deleteTag: (id) => api.delete(`/tag/${id}`)
+export const aircraftService = {
+  getAllAircraft: () => api.get('/aircraft'),
+  getAircraftById: (id) => api.get(`/aircraft/${id}`),
+  createAircraft: (aircraftData) => api.post('/aircraft', aircraftData),
+  updateAircraft: (id, aircraftData) => api.put(`/aircraft/${id}`, aircraftData),
+  deleteAircraft: (id) => api.delete(`/aircraft/${id}`),
+  bulkCreateAircraft: (aircraftDataArray) => api.post('/aircraft/bulk', aircraftDataArray)
+};
+
+export const terminalService = {
+  getAllTerminals: () => api.get('/terminals'),
+  getTerminalById: (id) => api.get(`/terminals/${id}`),
+  createTerminal: (terminalData) => api.post('/terminals', terminalData),
+  updateTerminal: (id, terminalData) => api.put(`/terminals/${id}`, terminalData),
+  deleteTerminal: (id) => api.delete(`/terminals/${id}`)
+};
+
+export const gateService = {
+  getAllGates: () => api.get('/gates'),
+  getGateById: (id) => api.get(`/gates/${id}`),
+  createGate: (gateData) => api.post('/gates', gateData),
+  updateGate: (id, gateData) => api.put(`/gates/${id}`, gateData),
+  deleteGate: (id) => api.delete(`/gates/${id}`)
+};
+
+export const passengerService = {
+  getAllPassengers: () => api.get('/passengers'),
+  getPassengerById: (id) => api.get(`/passengers/${id}`),
+  createPassenger: (passengerData) => api.post('/passengers', passengerData),
+  updatePassenger: (id, passengerData) => api.put(`/passengers/${id}`, passengerData),
+  deletePassenger: (id) => api.delete(`/passengers/${id}`),
+  bulkCreatePassengers: (passengerDataArray) => api.post('/passengers/bulk', passengerDataArray)
+};
+
+export const flightService = {
+  getAllFlights: () => api.get('/flights'),
+  getFlightById: (id) => api.get(`/flights/${id}`),
+  createFlight: (flightData) => api.post('/flights', flightData),
+  updateFlight: (id, flightData) => api.put(`/flights/${id}`, flightData),
+  deleteFlight: (id) => api.delete(`/flights/${id}`)
+};
+
+export const ticketService = {
+  getAllTickets: () => api.get('/tickets'),
+  getTicketById: (id) => api.get(`/tickets/${id}`),
+  createTicket: (ticketData) => api.post('/tickets', ticketData),
+  updateTicket: (id, ticketData) => api.put(`/tickets/${id}`, ticketData),
+  deleteTicket: (id) => api.delete(`/tickets/${id}`)
 };
 
 export default {
-  userService,
-  noteService,
-  tagService
+  authService,
+  airlineService,
+  aircraftService,
+  terminalService,
+  gateService,
+  passengerService,
+  flightService,
+  ticketService
 };

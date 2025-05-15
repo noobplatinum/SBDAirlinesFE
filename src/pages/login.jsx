@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { userService } from '../services/api';
+import { authService } from '../services/api';
 import { useTheme } from '../themeContext';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -18,29 +18,32 @@ export default function Login() {
     setError('');
     
     try {
-      const response = await userService.login(email, password);
-      const data = response.data;
+      // Using the authService from the API instead of userService
+      const response = await authService.login({ username, password });
       
-      if (data.success) {
-        setSuccessMsg('Login berhasil! Redirecting...');
-        localStorage.setItem('user', JSON.stringify(data.payload));
+      // Check if login was successful
+      if (response.data && response.data.user) {
+        setSuccessMsg('Login successful! Redirecting...');
+        
+        // Store user info in localStorage for session management
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         localStorage.setItem('isLoggedIn', 'true');
         
         setTimeout(() => {
           navigate('/');
         }, 1500);
       } else {
-        setError(data.message || 'Login gagal, silakan coba lagi.');
+        setError('Login failed, please try again.');
       }
     } catch (err) {
       console.error('Login error:', err);
       
       if (err.response) {
-        setError(err.response.data?.message || 'Invalid email or password');
+        setError(err.response.data?.message || 'Invalid username or password');
       } else if (err.request) {
         setError('No response from server. Please check your connection.');
       } else {
-        setError('Error setting up request: ' + err.message);
+        setError('Error: ' + err.message);
       }
     } finally {
       setIsLoading(false);
@@ -54,7 +57,7 @@ export default function Login() {
           ? 'bg-gray-800/90 text-white backdrop-blur-sm border border-gray-700' 
           : 'bg-white/90 text-gray-800 backdrop-blur-sm border border-gray-200'
       }`}>
-        <h2 className="text-3xl font-bold mb-6 text-center">Login to Netleb Notes</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">Login to Airport System</h2>
         
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 shadow">
@@ -80,21 +83,21 @@ export default function Login() {
         
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
-            <label htmlFor="email" className={`block mb-2 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-              Email Address
+            <label htmlFor="username" className={`block mb-2 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+              Username
             </label>
             <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className={`w-full px-4 py-3 border rounded-lg ${
                 darkMode 
                   ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500' 
                   : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500'
               } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200`}
               required
-              placeholder="your@email.com"
+              placeholder="your_username"
             />
           </div>
           

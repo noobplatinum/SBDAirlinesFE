@@ -27,12 +27,11 @@ export default function ImageCarousel() {
   return (
     <section className="py-20 relative z-20">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-10">
-          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
-            Easy to Use, Powerful, and Light Note Taking Experience 
+        <div className="text-center mb-10">          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
+            Premium Flights with World-Class Service
           </h2>
           <p className={`max-w-2xl mx-auto ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-            For productivity anywhere, Netleb Notes provides a smooth documentating experience. Powered by React and Express.
+            Experience luxury and comfort in every journey with SBD Airlines. From boarding to landing, we ensure a seamless experience.
           </p>
         </div>
         
