@@ -11,7 +11,8 @@ export default function EntityPanel({
   renderCustomForm,
   initialFormData = {},
   isReadOnly = false,
-  onCustomAction
+  onCustomAction,
+  idField = 'id' // Default to 'id', but allow MongoDB's '_id'
 }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,9 +30,16 @@ export default function EntityPanel({
       setIsLoading(true);
       const getAllMethod = `getAll${entityName}s`;
       const response = await service[getAllMethod]();
-      setData(response.data);
-      setError(null);
+      
+      // Check if we have data in the response
+      if (response && response.data) {
+        setData(response.data);
+        setError(null);
+      } else {
+        setError(`No data returned from the API for ${entityName.toLowerCase()}s`);
+      }
     } catch (err) {
+      console.error('API Error:', err);
       setError(`Failed to fetch ${entityName.toLowerCase()}s: ${err.message || 'Unknown error'}`);
     } finally {
       setIsLoading(false);
@@ -40,9 +48,16 @@ export default function EntityPanel({
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    
+    // Handle number inputs
+    let finalValue = value;
+    if (type === 'number' && value !== '') {
+      finalValue = type === 'number' ? Number(value) : value;
+    }
+    
     setFormData(prev => ({ 
       ...prev, 
-      [name]: type === 'checkbox' ? checked : value 
+      [name]: type === 'checkbox' ? checked : finalValue
     }));
   };
 
@@ -51,7 +66,7 @@ export default function EntityPanel({
     try {
       if (currentItem) {
         const updateMethod = `update${entityName}`;
-        await service[updateMethod](currentItem.id, formData);
+        await service[updateMethod](currentItem[idField], formData);
       } else {
         const createMethod = `create${entityName}`;
         await service[createMethod](formData);
@@ -68,8 +83,8 @@ export default function EntityPanel({
     
     // Create a new form data object from the item
     const newFormData = {};
-    Object.keys(initialFormData).forEach(key => {
-      newFormData[key] = item[key] !== undefined ? item[key] : initialFormData[key];
+    formFields.forEach(field => {
+      newFormData[field.name] = item[field.name] !== undefined ? item[field.name] : initialFormData[field.name];
     });
     
     setFormData(newFormData);
@@ -80,7 +95,7 @@ export default function EntityPanel({
     if (window.confirm(`Are you sure you want to delete this ${entityName.toLowerCase()}?`)) {
       try {
         const deleteMethod = `delete${entityName}`;
-        await service[deleteMethod](item.id);
+        await service[deleteMethod](item[idField]);
         fetchData();
       } catch (err) {
         alert(`Failed to delete ${entityName.toLowerCase()}: ${err.message || 'Unknown error'}`);
