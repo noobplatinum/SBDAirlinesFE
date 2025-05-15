@@ -25,6 +25,19 @@ export default function EntityPanel({
     fetchData();
   }, []);
 
+  // Helper function to extract the actual ID value from MongoDB's object format
+  const extractId = (item) => {
+    if (!item) return null;
+    
+    // Handle MongoDB's nested _id object format: { _id: { $oid: "123" } }
+    if (item[idField] && typeof item[idField] === 'object' && item[idField].$oid) {
+      return item[idField].$oid;
+    }
+    
+    // Regular ID field
+    return item[idField];
+  };
+
   const fetchData = async () => {
     try {
       setIsLoading(true);
@@ -52,7 +65,7 @@ export default function EntityPanel({
     // Handle number inputs
     let finalValue = value;
     if (type === 'number' && value !== '') {
-      finalValue = type === 'number' ? Number(value) : value;
+      finalValue = Number(value);
     }
     
     setFormData(prev => ({ 
@@ -66,7 +79,13 @@ export default function EntityPanel({
     try {
       if (currentItem) {
         const updateMethod = `update${entityName}`;
-        await service[updateMethod](currentItem[idField], formData);
+        const id = extractId(currentItem);
+        console.log(`Updating ${entityName} with ID:`, id);
+        // Remove _id from formData if it exists to prevent MongoDB conflicts
+        const updateData = { ...formData };
+        delete updateData._id;
+        
+        await service[updateMethod](id, updateData);
       } else {
         const createMethod = `create${entityName}`;
         await service[createMethod](formData);
@@ -74,6 +93,7 @@ export default function EntityPanel({
       setIsModalOpen(false);
       fetchData();
     } catch (err) {
+      console.error(`Failed to save ${entityName.toLowerCase()}:`, err);
       alert(`Failed to save ${entityName.toLowerCase()}: ${err.message || 'Unknown error'}`);
     }
   };
@@ -84,9 +104,20 @@ export default function EntityPanel({
     // Create a new form data object from the item
     const newFormData = {};
     formFields.forEach(field => {
-      newFormData[field.name] = item[field.name] !== undefined ? item[field.name] : initialFormData[field.name];
+      // Handle nested MongoDB number objects like { $numberInt: "123" }
+      if (item[field.name] && typeof item[field.name] === 'object' && item[field.name].$numberInt) {
+        newFormData[field.name] = parseInt(item[field.name].$numberInt);
+      } else {
+        newFormData[field.name] = item[field.name] !== undefined ? item[field.name] : initialFormData[field.name];
+      }
     });
     
+    // Store the MongoDB _id in the form data for reference
+    if (item._id) {
+      newFormData._id = item._id;
+    }
+    
+    console.log("Setting form data for edit:", newFormData);
     setFormData(newFormData);
     setIsModalOpen(true);
   };
@@ -95,9 +126,12 @@ export default function EntityPanel({
     if (window.confirm(`Are you sure you want to delete this ${entityName.toLowerCase()}?`)) {
       try {
         const deleteMethod = `delete${entityName}`;
-        await service[deleteMethod](item[idField]);
+        const id = extractId(item);
+        console.log(`Deleting ${entityName} with ID:`, id);
+        await service[deleteMethod](id);
         fetchData();
       } catch (err) {
+        console.error(`Failed to delete ${entityName.toLowerCase()}:`, err);
         alert(`Failed to delete ${entityName.toLowerCase()}: ${err.message || 'Unknown error'}`);
       }
     }
