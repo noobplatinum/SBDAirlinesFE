@@ -18,7 +18,6 @@ export default function DashboardPanel() {
     const fetchStats = async () => {
       setIsLoading(true);
       try {
-        // Fetch all entity counts
         const [airlinesRes, aircraftRes, flightsRes, passengersRes, ticketsRes] = await Promise.all([
           airlineService.getAllAirlines(),
           aircraftService.getAllAircraft(),
@@ -35,12 +34,10 @@ export default function DashboardPanel() {
           tickets: ticketsRes.data.length
         });
 
-        // Fetch recent flights to display in activity
         const recentFlights = flightsRes.data
           .sort((a, b) => new Date(b.createdAt || b.departure_time) - new Date(a.createdAt || a.departure_time))
           .slice(0, 3);
           
-        // Create recent activity items based on the data we have
         const activityItems = [
           ...recentFlights.map(flight => ({
             id: flight.id,
@@ -49,7 +46,6 @@ export default function DashboardPanel() {
           }))
         ];
         
-        // If we have airlines, add the most recent one
         if (airlinesRes.data.length > 0) {
           const recentAirline = airlinesRes.data
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
