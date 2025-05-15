@@ -13,8 +13,8 @@ export default function EntityPanel({
   isReadOnly = false,
   onCustomAction,
   idField = 'id',
-  data = null, // Allow passing data directly
-  error: externalError = null // Allow passing error directly
+  data = null, 
+  error: externalError = null 
 }) {
   const [internalData, setInternalData] = useState([]);
   const [isLoading, setIsLoading] = useState(data === null);
@@ -24,14 +24,12 @@ export default function EntityPanel({
   const [formData, setFormData] = useState(initialFormData);
   
   useEffect(() => {
-    // If data is provided directly, use it
     if (data !== null) {
       setInternalData(data);
       setIsLoading(false);
       return;
     }
     
-    // Otherwise, fetch data from service
     fetchData();
   }, [data]);
   
@@ -39,16 +37,13 @@ export default function EntityPanel({
     setError(externalError);
   }, [externalError]);
 
-  // Helper function to extract the actual ID value from MongoDB's object format
   const extractId = (item) => {
     if (!item) return null;
     
-    // Handle MongoDB's nested _id object format: { _id: { $oid: "123" } }
     if (item[idField] && typeof item[idField] === 'object' && item[idField].$oid) {
       return item[idField].$oid;
     }
     
-    // Regular ID field
     return item[idField];
   };
 
@@ -66,7 +61,6 @@ export default function EntityPanel({
       
       const response = await service[getAllMethod]();
       
-      // Check if we have data in the response
       if (response && response.data) {
         setInternalData(response.data);
         setError(null);
@@ -84,7 +78,6 @@ export default function EntityPanel({
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     
-    // Handle number inputs
     let finalValue = value;
     if (type === 'number' && value !== '') {
       finalValue = Number(value);
@@ -103,34 +96,27 @@ export default function EntityPanel({
         const updateMethod = `update${entityName}`;
         const id = extractId(currentItem);
         console.log(`Updating ${entityName} with ID:`, id);
-        // Remove _id from formData if it exists to prevent MongoDB conflicts
         const updateData = { ...formData };
         delete updateData._id;
         
-        // Check if we have data passed directly or need to use service
         if (data !== null) {
-          // For panels with direct data management
           const result = await service[updateMethod](id, updateData);
           if (!result.success) {
             throw new Error(result.error || 'Failed to update');
           }
         } else {
-          // Using the service directly
           await service[updateMethod](id, updateData);
           fetchData();
         }
       } else {
         const createMethod = `create${entityName}`;
         
-        // Check if we have data passed directly or need to use service
         if (data !== null) {
-          // For panels with direct data management
           const result = await service[createMethod](formData);
           if (!result.success) {
             throw new Error(result.error || 'Failed to create');
           }
         } else {
-          // Using the service directly
           await service[createMethod](formData);
           fetchData();
         }
@@ -145,10 +131,8 @@ export default function EntityPanel({
   const handleEdit = (item) => {
     setCurrentItem(item);
     
-    // Create a new form data object from the item
     const newFormData = {};
     formFields.forEach(field => {
-      // Handle nested MongoDB number objects like { $numberInt: "123" }
       if (item[field.name] && typeof item[field.name] === 'object' && item[field.name].$numberInt) {
         newFormData[field.name] = parseInt(item[field.name].$numberInt);
       } else {
@@ -156,7 +140,6 @@ export default function EntityPanel({
       }
     });
     
-    // Store the MongoDB _id in the form data for reference
     if (item._id) {
       newFormData._id = item._id;
     }
@@ -173,15 +156,12 @@ export default function EntityPanel({
         const id = extractId(item);
         console.log(`Deleting ${entityName} with ID:`, id);
         
-        // Check if we have data passed directly or need to use service
         if (data !== null) {
-          // For panels with direct data management
           const result = await service[deleteMethod](id);
           if (!result.success) {
             throw new Error(result.error || 'Failed to delete');
           }
         } else {
-          // Using the service directly
           await service[deleteMethod](id);
           fetchData();
         }
@@ -297,7 +277,6 @@ export default function EntityPanel({
     );
   };
 
-  // Get the actual data to use
   const displayData = data !== null ? data : internalData;
 
   return (

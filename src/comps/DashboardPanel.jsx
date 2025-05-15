@@ -90,7 +90,6 @@ export default function DashboardPanel() {
         console.error('Error fetching dashboard data:', err);
         setError('Failed to load dashboard data');
         
-        // Set fallback data
         setRecentActivity([
           { id: 1, message: 'New flight LH456 scheduled', time: '2 hours ago' },
           { id: 2, message: 'Gate B12 maintenance completed', time: '5 hours ago' },
@@ -110,7 +109,6 @@ export default function DashboardPanel() {
     fetchStats();
   }, []);
 
-  // Helper function to format timestamps as relative time
   const formatTimeAgo = (date) => {
     const now = new Date();
     const diffInSeconds = Math.floor((now - date) / 1000);
@@ -122,7 +120,6 @@ export default function DashboardPanel() {
     return `${Math.floor(diffInSeconds / 86400)} days ago`;
   };
   
-  // Helper to convert relative times back to approximate timestamps for sorting
   const convertRelativeTimeToTimestamp = (relativeTime) => {
     const now = new Date().getTime();
     

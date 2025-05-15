@@ -3,7 +3,6 @@ import { airlineService } from '../services/api';
 import EntityPanel from './EntityPanel';
 
 export default function AirlinesPanel() {
-  // Map the MongoDB field names to our frontend field names
   const columns = [
     { field: '_id', header: 'ID' },
     { field: 'nama_maskapai', header: 'Name' },
