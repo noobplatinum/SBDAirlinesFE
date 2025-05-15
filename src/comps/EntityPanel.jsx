@@ -12,18 +12,32 @@ export default function EntityPanel({
   initialFormData = {},
   isReadOnly = false,
   onCustomAction,
-  idField = 'id' // Default to 'id', but allow MongoDB's '_id'
+  idField = 'id',
+  data = null, // Allow passing data directly
+  error: externalError = null // Allow passing error directly
 }) {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [internalData, setInternalData] = useState([]);
+  const [isLoading, setIsLoading] = useState(data === null);
+  const [error, setError] = useState(externalError);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
   const [formData, setFormData] = useState(initialFormData);
   
   useEffect(() => {
+    // If data is provided directly, use it
+    if (data !== null) {
+      setInternalData(data);
+      setIsLoading(false);
+      return;
+    }
+    
+    // Otherwise, fetch data from service
     fetchData();
-  }, []);
+  }, [data]);
+  
+  useEffect(() => {
+    setError(externalError);
+  }, [externalError]);
 
   // Helper function to extract the actual ID value from MongoDB's object format
   const extractId = (item) => {
@@ -42,11 +56,19 @@ export default function EntityPanel({
     try {
       setIsLoading(true);
       const getAllMethod = `getAll${entityName}s`;
+      
+      if (!service[getAllMethod]) {
+        console.error(`Method ${getAllMethod} not found in service:`, service);
+        setError(`API method ${getAllMethod} is not available`);
+        setIsLoading(false);
+        return;
+      }
+      
       const response = await service[getAllMethod]();
       
       // Check if we have data in the response
       if (response && response.data) {
-        setData(response.data);
+        setInternalData(response.data);
         setError(null);
       } else {
         setError(`No data returned from the API for ${entityName.toLowerCase()}s`);
@@ -85,13 +107,35 @@ export default function EntityPanel({
         const updateData = { ...formData };
         delete updateData._id;
         
-        await service[updateMethod](id, updateData);
+        // Check if we have data passed directly or need to use service
+        if (data !== null) {
+          // For panels with direct data management
+          const result = await service[updateMethod](id, updateData);
+          if (!result.success) {
+            throw new Error(result.error || 'Failed to update');
+          }
+        } else {
+          // Using the service directly
+          await service[updateMethod](id, updateData);
+          fetchData();
+        }
       } else {
         const createMethod = `create${entityName}`;
-        await service[createMethod](formData);
+        
+        // Check if we have data passed directly or need to use service
+        if (data !== null) {
+          // For panels with direct data management
+          const result = await service[createMethod](formData);
+          if (!result.success) {
+            throw new Error(result.error || 'Failed to create');
+          }
+        } else {
+          // Using the service directly
+          await service[createMethod](formData);
+          fetchData();
+        }
       }
       setIsModalOpen(false);
-      fetchData();
     } catch (err) {
       console.error(`Failed to save ${entityName.toLowerCase()}:`, err);
       alert(`Failed to save ${entityName.toLowerCase()}: ${err.message || 'Unknown error'}`);
@@ -128,8 +172,19 @@ export default function EntityPanel({
         const deleteMethod = `delete${entityName}`;
         const id = extractId(item);
         console.log(`Deleting ${entityName} with ID:`, id);
-        await service[deleteMethod](id);
-        fetchData();
+        
+        // Check if we have data passed directly or need to use service
+        if (data !== null) {
+          // For panels with direct data management
+          const result = await service[deleteMethod](id);
+          if (!result.success) {
+            throw new Error(result.error || 'Failed to delete');
+          }
+        } else {
+          // Using the service directly
+          await service[deleteMethod](id);
+          fetchData();
+        }
       } catch (err) {
         console.error(`Failed to delete ${entityName.toLowerCase()}:`, err);
         alert(`Failed to delete ${entityName.toLowerCase()}: ${err.message || 'Unknown error'}`);
@@ -242,6 +297,9 @@ export default function EntityPanel({
     );
   };
 
+  // Get the actual data to use
+  const displayData = data !== null ? data : internalData;
+
   return (
     <div className="space-y-6">
       <div className="sm:flex sm:items-center sm:justify-between">
@@ -265,7 +323,7 @@ export default function EntityPanel({
       </div>
 
       <DataTable 
-        data={data}
+        data={displayData}
         columns={columns}
         onEdit={isReadOnly ? null : handleEdit}
         onDelete={isReadOnly ? null : handleDelete}
