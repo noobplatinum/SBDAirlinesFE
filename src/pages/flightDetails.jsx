@@ -667,7 +667,7 @@ export default function FlightDetails() {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> 
 
                                         <button
                                             type="submit"
