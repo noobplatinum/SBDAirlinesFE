@@ -8,6 +8,7 @@ import Home from './pages/home';
 import Login from './pages/login';
 import Register from './pages/register';
 import AdminPanel from './pages/adminPage';
+import BookFlight from './pages/bookflight'; // Import the BookFlight component
 import './App.css';
 // import Notes from './pages/notes';
 
@@ -29,7 +30,7 @@ export default function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/admin" element={<AdminPanel />} />
-                
+                <Route path="/bookflight" element={<BookFlight />} /> {/* Add the BookFlight route */}
               </Routes>
             </main>
             
