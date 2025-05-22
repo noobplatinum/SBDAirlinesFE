@@ -40,14 +40,25 @@ export default function Navbar() {
             >
               Home
             </Link>
-            <Link 
-              to="/login" 
-              className={`font-medium ${
-                darkMode ? 'text-white hover:text-blue-400' : 'text-gray-900 hover:text-blue-600'
-              }`}
-            >
-              Book Flight
-            </Link>
+            {isLoggedIn ? (
+              <Link 
+                to="/bookflight" 
+                className={`font-medium ${
+                  darkMode ? 'text-white hover:text-blue-400' : 'text-gray-900 hover:text-blue-600'
+                }`}
+              >
+                Book Flight
+              </Link>
+            ) : (
+              <Link 
+                to="/login" 
+                className={`font-medium ${
+                  darkMode ? 'text-white hover:text-blue-400' : 'text-gray-900 hover:text-blue-600'
+                }`}
+              >
+                Get Started
+              </Link>
+            )}
             {isLoggedIn && (
               <>
                 <Link 
@@ -68,9 +79,11 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   to="/admin" 
-                  className={`font-medium ${
-                    darkMode ? 'text-white hover:text-blue-400' : 'text-gray-900 hover:text-blue-600'
-                  }`}
+                  className={`px-4 py-2 rounded-lg font-semibold shadow transition-all duration-200 border border-blue-500 ml-2
+                    ${darkMode
+                      ? 'bg-blue-700 text-white hover:bg-blue-800 hover:text-blue-200 border-blue-700'
+                      : 'bg-blue-100 text-blue-700 hover:bg-blue-200 hover:text-blue-900 border-blue-300'}
+                  `}
                 >
                   Admin Panel
                 </Link>
