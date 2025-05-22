@@ -13,7 +13,7 @@ import TicketsPanel from '../comps/TicketsPanel';
 
 export default function AdminPanel() {
   const [activeSection, setActiveSection] = useState('dashboard');
-  const [isAdmin, setIsAdmin] = useState(true); // Set to true for now to avoid redirect
+  const [isAdmin, setIsAdmin] = useState(false); // Set to true for now to avoid redirect
   
   useEffect(() => {
     const checkAdminStatus = () => {

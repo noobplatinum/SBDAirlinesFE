@@ -9,14 +9,10 @@ const api = axios.create({
   }
 });
 
-// Add request interceptor to handle MongoDB ID objects
 api.interceptors.request.use(config => {
-  // Log all API requests in development
   console.log(`API ${config.method.toUpperCase()} Request:`, config.url, config.data || {});
   
-  // If there's a URL parameter that might be a MongoDB ID object
   if (config.url && config.url.includes('/') && config.params) {
-    // Extract the MongoDB ID if it's in object format
     for (const key in config.params) {
       if (typeof config.params[key] === 'object' && config.params[key].$oid) {
         config.params[key] = config.params[key].$oid;
@@ -32,10 +28,12 @@ api.interceptors.request.use(config => {
 export const authService = {
   register: (userData) => api.post('/auth/register', userData),
   login: (credentials) => api.post('/auth/login', credentials),
-  logout: () => api.post('/auth/logout')
+  logout: () => api.post('/auth/logout'),
+  createPassengerForUser: (userId, passengerData) => api.post(`/auth/create-passenger/${extractMongoId(userId)}`, passengerData),
+  migrateUsers: () => api.post('/auth/migrate-users'),
+  getUserPassengerDetails: (userId) => api.get(`/auth/profile/${extractMongoId(userId)}`)
 };
 
-// Helper function to handle MongoDB ID formats
 const extractMongoId = (id) => {
   if (id && typeof id === 'object' && id.$oid) {
     return id.$oid;
@@ -102,9 +100,46 @@ export const flightService = {
 export const ticketService = {
   getAllTickets: () => api.get('/tickets'),
   getTicketById: (id) => api.get(`/tickets/${extractMongoId(id)}`),
+  getTicketsByPassenger: (passengerId) => api.get(`/tickets/passenger/${extractMongoId(passengerId)}`),
   createTicket: (ticketData) => api.post('/tickets', ticketData),
   updateTicket: (id, ticketData) => api.put(`/tickets/${extractMongoId(id)}`, ticketData),
   deleteTicket: (id) => api.delete(`/tickets/${extractMongoId(id)}`)
+};
+
+export const userTicketService = {
+  getUserTickets: (userId) => {
+    return authService.getUserPassengerDetails(userId)
+      .then(response => {
+        const passengerId = response.data.passenger ? response.data.passenger._id : 
+                           (response.data.penumpang_id || response.data.passenger_details?._id);
+        
+        if (!passengerId) {
+          throw new Error('No passenger ID found for this user');
+        }
+        
+        return ticketService.getTicketsByPassenger(passengerId);
+      });
+  },
+  
+  bookTicketForUser: (userId, flightId, ticketDetails) => {
+    return authService.getUserPassengerDetails(userId)
+      .then(response => {
+        const passengerId = response.data.passenger ? response.data.passenger._id : 
+                           (response.data.penumpang_id || response.data.passenger_details?._id);
+        
+        if (!passengerId) {
+          throw new Error('No passenger ID found for this user');
+        }
+        
+        const ticketData = {
+          ...ticketDetails,
+          penumpang_id: passengerId,
+          flight_id: extractMongoId(flightId)
+        };
+        
+        return ticketService.createTicket(ticketData);
+      });
+  }
 };
 
 export default {
@@ -115,5 +150,6 @@ export default {
   gateService,
   passengerService,
   flightService,
-  ticketService
+  ticketService,
+  userTicketService
 };

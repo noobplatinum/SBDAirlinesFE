@@ -19,60 +19,71 @@ export default function Register() {
   const { darkMode } = useTheme();
   
   const handleRegister = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  
+  if (password !== confirmPassword) {
+    setError('Passwords do not match');
+    return;
+  }
+  
+  setIsLoading(true);
+  setError('');
+  setSuccessMsg('');
+  
+  try {
+    // Combine all the data into a single registration request
+    const userData = {
+      username,
+      email,
+      password,
+      name, // Send name for passenger record
+      nomor_identitas,
+      nomor_telepon,
+      kewarganegaraan,
+      role: 'passenger' // Default role
+    };
     
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
+    console.log('Registering with data:', userData);
+    
+    const response = await authService.register(userData);
+    
+    if (response.data && response.data.user) {
+      console.log('User registered:', response.data.user);
+      
+      setSuccessMsg('Registration successful! Logging you in...');
+      
+      // Store the user data in local storage
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      localStorage.setItem('isLoggedIn', 'true');
+      
+      // Navigate to home page after a brief delay
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
+    } else {
+      setError('Registration failed. Please try again.');
     }
+  } catch (err) {
+    console.error('Registration error:', err);
     
-    setIsLoading(true);
-    setError('');
-    
-    try {
-      // Create user data object based on our new API structure
-      const userData = {
-        username,
-        email,
-        password,
-        name,
-        nomor_identitas,
-        nomor_telepon,
-        kewarganegaraan,
-        role: 'admin' // Default role for registration
-      };
-      
-      // Using authService from our API instead of userService
-      const response = await authService.register(userData);
-      
-      // Check registration success
-      if (response.data && response.data.user) {
-        setSuccessMsg('Registration successful! Logging you in...');
-        
-        // Store user info in localStorage
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        localStorage.setItem('isLoggedIn', 'true');
-        
-        setTimeout(() => {
-          navigate('/');
-        }, 1500);
+    if (err.response) {
+      // Handle specific errors from the server
+      if (err.response.data?.message?.includes('User with this email or username already exists')) {
+        setError('This username or email is already registered. Please use different credentials.');
+      } else if (err.response.data?.message?.includes('E11000 duplicate key error')) {
+        setError('This email or phone number is already in use. Please use different details.');
       } else {
-        setError('Registration failed. Please try again.');
+        setError(err.response.data?.message || 'Registration failed. Please try again.');
       }
-    } catch (err) {
-      console.error('Registration error:', err);
-      
-      if (err.response) {
-        setError(err.response.data?.message || 'Registration failed. Username or email may already be in use.');
-      } else if (err.request) {
-        setError('No response from server. Please check your connection.');
-      } else {
-        setError('Error: ' + err.message);
-      }
-    } finally {
-      setIsLoading(false);
+    } else if (err.request) {
+      setError('No response from server. Please check your connection.');
+    } else {
+      setError('Error: ' + err.message);
     }
-  };
+  } finally {
+    setIsLoading(false);
+  }
+};
   
   return (
     <div className="container mx-auto px-4 pt-28 pb-16 relative z-10 flex-grow flex justify-center">
