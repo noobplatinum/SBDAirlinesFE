@@ -62,7 +62,7 @@ export default function Navbar() {
             {isLoggedIn && (
               <>
                 <Link 
-                  to="/notes" 
+                  to="/my-tickets" 
                   className={`font-medium ${
                     darkMode ? 'text-white hover:text-blue-400' : 'text-gray-900 hover:text-blue-600'
                   }`}

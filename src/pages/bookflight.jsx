@@ -8,7 +8,7 @@ export default function BookFlight() {
   const [airlines, setAirlines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   // Search filters
   const [searchParams, setSearchParams] = useState({
     origin: '',
@@ -65,15 +65,15 @@ export default function BookFlight() {
   };
 
   const filteredFlights = flights.filter(flight => {
-    const matchesOrigin = searchParams.origin ? 
+    const matchesOrigin = searchParams.origin ?
       flight.asal_bandara.toLowerCase().includes(searchParams.origin.toLowerCase()) : true;
-    
-    const matchesDestination = searchParams.destination ? 
+
+    const matchesDestination = searchParams.destination ?
       flight.tujuan_bandara.toLowerCase().includes(searchParams.destination.toLowerCase()) : true;
-    
-    const matchesAirline = searchParams.airline ? 
+
+    const matchesAirline = searchParams.airline ?
       flight.maskapai_id._id === searchParams.airline : true;
-    
+
     let matchesDate = true;
     if (searchParams.departureDate) {
       const searchDate = new Date(searchParams.departureDate);
@@ -112,7 +112,7 @@ export default function BookFlight() {
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            
+
             <div>
               <label htmlFor="destination" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Destination
@@ -127,7 +127,7 @@ export default function BookFlight() {
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            
+
             <div>
               <label htmlFor="departureDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Departure Date
@@ -141,7 +141,7 @@ export default function BookFlight() {
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            
+
             <div>
               <label htmlFor="airline" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Airline
@@ -187,7 +187,7 @@ export default function BookFlight() {
                   {filteredFlights.length} {filteredFlights.length === 1 ? 'flight' : 'flights'} found
                 </p>
               </div>
-              
+
               {filteredFlights.length === 0 ? (
                 <div className="p-8 text-center text-gray-500 dark:text-gray-400">
                   <p>No flights match your search criteria. Try adjusting your filters.</p>
@@ -195,8 +195,8 @@ export default function BookFlight() {
               ) : (
                 <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredFlights.map(flight => (
-                    <li 
-                      key={flight._id} 
+                    <li
+                      key={flight._id}
                       className="p-6 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/40"
                     >
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -215,7 +215,7 @@ export default function BookFlight() {
                             </p>
                           </div>
                         </div>
-                        
+
                         <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
                           <div>
                             <p className="text-sm font-medium text-gray-500 dark:text-gray-400">From</p>
@@ -224,7 +224,7 @@ export default function BookFlight() {
                               {formatDateTime(flight.jadwal_keberangkatan)}
                             </p>
                           </div>
-                          
+
                           <div className="flex items-center justify-center">
                             <div className="w-full flex items-center">
                               <div className="h-0.5 flex-1 bg-gray-300 dark:bg-gray-600"></div>
@@ -234,7 +234,7 @@ export default function BookFlight() {
                               <div className="h-0.5 flex-1 bg-gray-300 dark:bg-gray-600"></div>
                             </div>
                           </div>
-                          
+
                           <div>
                             <p className="text-sm font-medium text-gray-500 dark:text-gray-400">To</p>
                             <p className="text-lg font-semibold text-gray-900 dark:text-white">{flight.tujuan_bandara}</p>
@@ -243,19 +243,18 @@ export default function BookFlight() {
                             </p>
                           </div>
                         </div>
-                        
+
                         <div className="flex flex-col items-center">
-                          <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-                            flight.status_penerbangan === 'On Time' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
-                            flight.status_penerbangan === 'Delayed' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
-                            'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
-                          }`}>
+                          <span className={`px-3 py-1 text-xs font-medium rounded-full ${flight.status_penerbangan === 'On Time' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
+                              flight.status_penerbangan === 'Delayed' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
+                                'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
+                            }`}>
                             {flight.status_penerbangan}
                           </span>
-                          
+
                           <button
                             className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                            onClick={() => alert(`Book flight from ${flight.asal_bandara} to ${flight.tujuan_bandara}`)}
+                            onClick={() => navigate(`/flight-details/${flight._id}`)}
                           >
                             Book Now
                           </button>

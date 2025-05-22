@@ -8,9 +8,10 @@ import Home from './pages/home';
 import Login from './pages/login';
 import Register from './pages/register';
 import AdminPanel from './pages/adminPage';
-import BookFlight from './pages/bookflight'; // Import the BookFlight component
+import BookFlight from './pages/bookflight';
+import FlightDetails from './pages/flightDetails';
+import MyTickets from './pages/mytickets';
 import './App.css';
-// import Notes from './pages/notes';
 
 export default function App() {
   return (
@@ -20,10 +21,10 @@ export default function App() {
           <div className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none">
             <ShootingStars />
           </div>
-          
+
           <div className="relative z-10 flex flex-col min-h-screen">
             <Navbar />
-            
+
             <main className="flex-grow">
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -31,9 +32,11 @@ export default function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/admin" element={<AdminPanel />} />
                 <Route path="/bookflight" element={<BookFlight />} /> {/* Add the BookFlight route */}
+                <Route path="/flight-details/:id" element={<FlightDetails />} />
+                <Route path="/my-tickets" element={<MyTickets />} />
               </Routes>
             </main>
-            
+
             <Footer />
           </div>
         </div>

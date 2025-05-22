@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api'; 
+const API_URL = 'http://localhost:3000/api';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -11,7 +11,7 @@ const api = axios.create({
 
 api.interceptors.request.use(config => {
   console.log(`API ${config.method.toUpperCase()} Request:`, config.url, config.data || {});
-  
+
   if (config.url && config.url.includes('/') && config.params) {
     for (const key in config.params) {
       if (typeof config.params[key] === 'object' && config.params[key].$oid) {
@@ -19,7 +19,7 @@ api.interceptors.request.use(config => {
       }
     }
   }
-  
+
   return config;
 }, error => {
   return Promise.reject(error);
@@ -107,38 +107,52 @@ export const ticketService = {
 };
 
 export const userTicketService = {
-  getUserTickets: (userId) => {
-    return authService.getUserPassengerDetails(userId)
-      .then(response => {
-        const passengerId = response.data.passenger ? response.data.passenger._id : 
-                           (response.data.penumpang_id || response.data.passenger_details?._id);
-        
-        if (!passengerId) {
-          throw new Error('No passenger ID found for this user');
-        }
-        
-        return ticketService.getTicketsByPassenger(passengerId);
-      });
+  bookTicketForUser: async (userId, flightId, ticketDetails) => {
+    try {
+      // First get the user profile to find the passenger ID
+      const userResponse = await authService.getUserPassengerDetails(userId);
+      const userData = userResponse.data;
+
+      // Find the passenger ID - it could be in different locations depending on the API
+      const passengerId = userData.penumpang_id ||
+        (userData.passenger_details ? userData.passenger_details._id : null);
+
+      if (!passengerId) {
+        throw new Error('No passenger profile found for this user');
+      }
+
+      // Now create the ticket with the passenger ID
+      const ticketData = {
+        ...ticketDetails,
+        penumpang_id: passengerId,
+        flight_id: extractMongoId(flightId),
+        status_tiket: 'Confirmed' // Set default status
+      };
+
+      return await ticketService.createTicket(ticketData);
+    } catch (error) {
+      console.error('Error booking ticket:', error);
+      throw error;
+    }
   },
-  
-  bookTicketForUser: (userId, flightId, ticketDetails) => {
-    return authService.getUserPassengerDetails(userId)
-      .then(response => {
-        const passengerId = response.data.passenger ? response.data.passenger._id : 
-                           (response.data.penumpang_id || response.data.passenger_details?._id);
-        
-        if (!passengerId) {
-          throw new Error('No passenger ID found for this user');
-        }
-        
-        const ticketData = {
-          ...ticketDetails,
-          penumpang_id: passengerId,
-          flight_id: extractMongoId(flightId)
-        };
-        
-        return ticketService.createTicket(ticketData);
-      });
+
+  getUserTickets: async (userId) => {
+    try {
+      const userResponse = await authService.getUserPassengerDetails(userId);
+      const userData = userResponse.data;
+
+      const passengerId = userData.penumpang_id ||
+        (userData.passenger_details ? userData.passenger_details._id : null);
+
+      if (!passengerId) {
+        throw new Error('No passenger profile found for this user');
+      }
+
+      return await ticketService.getTicketsByPassenger(passengerId);
+    } catch (error) {
+      console.error('Error fetching user tickets:', error);
+      throw error;
+    }
   }
 };
 
