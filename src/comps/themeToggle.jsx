@@ -6,20 +6,18 @@ export default function ThemeToggle() {
   const { darkMode, toggleDarkMode } = useTheme();
 
   return (
-    <button 
+    <button
       onClick={toggleDarkMode}
-      className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200 focus:outline-none ${
-        darkMode 
-          ? 'bg-gray-800 hover:bg-gray-700' 
-          : 'bg-gray-200 hover:bg-gray-300'
-      }`}
+      className="flex items-center w-14 h-8 rounded-full px-1 bg-gray-200 dark:bg-gray-700 transition-colors duration-200 focus:outline-none relative"
       aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {darkMode ? (
-        <Sun size={20} className="text-yellow-300" />
-      ) : (
-        <Moon size={20} className="text-gray-700" />
-      )}
+      <Sun size={18} className="text-yellow-400" />
+      <span
+        className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow transition-transform duration-200 ${
+          darkMode ? 'translate-x-6' : ''
+        }`}
+      />
+      <Moon size={18} className="text-gray-500 ml-auto" />
     </button>
   );
 }
