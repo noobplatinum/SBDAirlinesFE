@@ -69,36 +69,36 @@ export default function DataTable({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-850">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+      <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div className="relative w-full sm:w-64">
+          <div className="relative w-full sm:w-72">
             <input
               type="text"
               placeholder="Search..."
-              className="w-full px-3 py-2 pr-10 border border-black dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
+              className="w-full px-4 py-2 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 focus:border-transparent shadow-sm transition"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
             </svg>
           </div>
-          <div className="text-sm text-black dark:text-black">
+          <div className="text-sm text-gray-700 dark:text-gray-300 font-medium bg-blue-50 dark:bg-gray-900 px-3 py-1 rounded-lg shadow-sm">
             Total: {data.length} records
           </div>
         </div>
       </div>
       
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-100 dark:bg-gray-750">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-xl overflow-hidden">
+          <thead className="bg-gradient-to-r from-blue-100 via-blue-50 to-blue-200 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800">
             <tr>
               {columns.map((column) => (
                 <th 
                   key={column.field} 
                   scope="col" 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-black uppercase tracking-wider cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  className="px-6 py-4 text-left text-xs font-semibold text-blue-900 dark:text-blue-200 uppercase tracking-wider cursor-pointer hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors select-none"
                   onClick={() => handleSort(column.field)}
                 >
                   <div className="flex items-center">
@@ -106,11 +106,11 @@ export default function DataTable({
                     {sortField === column.field && (
                       <span className="ml-1">
                         {sortDirection === 'asc' ? 
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-500 dark:text-blue-300" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
                           </svg> 
                           : 
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-500 dark:text-blue-300" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                           </svg>
                         }
@@ -119,17 +119,20 @@ export default function DataTable({
                   </div>
                 </th>
               ))}
-              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-black dark:text-black uppercase tracking-wider">
+              <th scope="col" className="px-6 py-4 text-right text-xs font-semibold text-blue-900 dark:text-blue-200 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-100 dark:divide-gray-800">
             {paginatedData.length > 0 ? (
               paginatedData.map((item, index) => (
-                <tr key={item.id || index} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                <tr 
+                  key={item.id || index} 
+                  className={`transition-colors ${index % 2 === 0 ? 'bg-blue-50 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'} hover:bg-blue-100 dark:hover:bg-gray-700`}
+                >
                   {columns.map((column) => (
-                    <td key={column.field} className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                    <td key={column.field} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
                       {column.render ? column.render(item) : item[column.field]}
                     </td>
                   ))}
@@ -175,7 +178,7 @@ export default function DataTable({
               ))
             ) : (
               <tr>
-                <td colSpan={columns.length + 1} className="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-750">
+                <td colSpan={columns.length + 1} className="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400 bg-blue-50 dark:bg-gray-900">
                   <div className="flex flex-col items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 dark:text-gray-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -198,21 +201,21 @@ export default function DataTable({
       </div>
       
       {totalPages > 1 && (
-        <div className="bg-gray-50 dark:bg-gray-750 px-4 py-3 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex flex-col md:flex-row items-center justify-between gap-3">
           <div>
-            <p className="text-sm text-gray-700 dark:text-black">
-              Showing <span className="font-medium">{startIndex + 1}</span> to <span className="font-medium">{Math.min(startIndex + itemsPerPage, sortedData.length)}</span> of <span className="font-medium">{sortedData.length}</span> results
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+              Showing <span className="font-semibold">{startIndex + 1}</span> to <span className="font-semibold">{Math.min(startIndex + itemsPerPage, sortedData.length)}</span> of <span className="font-semibold">{sortedData.length}</span> results
             </p>
           </div>
-          <div className="flex space-x-1">
+          <div className="flex space-x-2">
             <button 
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="relative inline-flex items-center px-2 py-1 text-sm font-medium rounded-md text-gray-700 dark:text-black bg-white dark:bg-gray-700 border border-black dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg text-blue-700 dark:text-blue-300 bg-white dark:bg-gray-700 border border-blue-200 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
             >
               Previous
             </button>
-            <div className="hidden md:flex">
+            <div className="hidden md:flex space-x-1">
               {[...Array(Math.min(5, totalPages)).keys()].map(i => {
                 const pageNum = Math.min(Math.max(currentPage - 2, 1) + i, totalPages);
                 if (pageNum > totalPages) return null;
@@ -221,11 +224,11 @@ export default function DataTable({
                   <button 
                     key={pageNum}
                     onClick={() => setCurrentPage(pageNum)}
-                    className={`relative inline-flex items-center px-3 py-1 text-sm font-medium rounded-md ${
+                    className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg ${
                       currentPage === pageNum 
-                        ? 'bg-blue-600 dark:bg-blue-700 text-white' 
-                        : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-black border border-black dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600'
-                    }`}
+                        ? 'bg-blue-600 dark:bg-blue-700 text-white shadow' 
+                        : 'bg-white dark:bg-gray-700 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-gray-800'
+                    } transition shadow-sm`}
                   >
                     {pageNum}
                   </button>
@@ -235,7 +238,7 @@ export default function DataTable({
             <button 
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="relative inline-flex items-center px-2 py-1 text-sm font-medium rounded-md text-gray-700 dark:text-black bg-white dark:bg-gray-700 border border-black dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg text-blue-700 dark:text-blue-300 bg-white dark:bg-gray-700 border border-blue-200 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
             >
               Next
             </button>

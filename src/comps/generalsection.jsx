@@ -25,6 +25,7 @@ export default function GeneralSection({
     localStorage.removeItem('user');
     localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false);
+    window.location.href = '/';
   };
   
   const notesBgColor = darkMode 

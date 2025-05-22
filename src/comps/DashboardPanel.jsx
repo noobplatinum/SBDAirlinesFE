@@ -57,17 +57,14 @@ export default function DashboardPanel() {
           });
         }
         
-        // Sort the final activity items by recency
         setRecentActivity(activityItems.sort((a, b) => {
-          // Convert relative times back to approximate timestamps for sorting
           const timeA = convertRelativeTimeToTimestamp(a.time);
           const timeB = convertRelativeTimeToTimestamp(b.time);
           return timeB - timeA;
         }).slice(0, 3));
         
-        // Check API system status by making a simple ping request
         try {
-          await api.get('/');
+          await airlineService.getAllAirlines();
           setSystemStatus({
             database: 'Online',
             api: 'Online',
@@ -138,125 +135,209 @@ export default function DashboardPanel() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-full">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="flex justify-center items-center h-full min-h-[400px]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-semibold text-gray-800 dark:text-white mb-6">Dashboard Overview</h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-8">Welcome to your airport management system dashboard.</p>
+    <div className="space-y-10 font-[Montserrat]">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-800 p-4 sm:p-6 md:p-8 text-white shadow-lg">
+        <div className="relative z-10">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3">Dashboard Overview</h1>
+          <p className="text-blue-100 text-base sm:text-lg">Welcome to your airport management system dashboard.</p>
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-8 mt-4 sm:mt-6 justify-center items-center">
+            <div className="flex items-center">
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/20 flex items-center justify-center mr-3">
+                <i className="bi bi-buildings text-xl sm:text-2xl"></i>
+              </div>
+              <div>
+                <p className="text-blue-100 text-xs sm:text-sm">Total Airlines</p>
+                <p className="text-xl sm:text-2xl font-semibold">{stats.airlines}</p>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/20 flex items-center justify-center mr-3">
+                <i className="bi bi-calendar-check text-xl sm:text-2xl"></i>
+              </div>
+              <div>
+                <p className="text-blue-100 text-xs sm:text-sm">Today's Date</p>
+                <p className="text-xl sm:text-2xl font-semibold">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-gradient-to-br from-blue-500/30 to-indigo-500/30 blur-2xl"></div>
+        <div className="absolute bottom-5 -left-16 h-52 w-52 rounded-full bg-gradient-to-tr from-indigo-500/20 to-blue-500/20 blur-3xl"></div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-700 rounded-xl shadow-md p-3 sm:p-4 md:p-6 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-300 uppercase">Airlines</p>
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white">{stats.airlines}</h2>
+              <p className="text-2xs sm:text-xs font-medium text-blue-600 dark:text-blue-300 uppercase tracking-wide">Airlines</p>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mt-1">{stats.airlines}</h2>
             </div>
-            <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
-              <i className="bi bi-building-airplane text-xl text-blue-500 dark:text-blue-300"></i>
+            <div className="bg-blue-500 dark:bg-blue-600 p-1.5 sm:p-2 md:p-2.5 rounded-lg text-white shadow-md flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10">
+              <i className="bi bi-building text-sm sm:text-base"></i>
             </div>
           </div>
         </div>
         
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 border-l-4 border-green-500">
+        <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-800 dark:to-gray-700 rounded-xl shadow-md p-3 sm:p-4 md:p-6 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-300 uppercase">Aircraft</p>
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white">{stats.aircraft}</h2>
+              <p className="text-2xs sm:text-xs font-medium text-green-600 dark:text-green-300 uppercase tracking-wide">Aircraft</p>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mt-1">{stats.aircraft}</h2>
             </div>
-            <div className="bg-green-100 dark:bg-green-900 p-3 rounded-full">
-              <i className="bi bi-plane text-xl text-green-500 dark:text-green-300"></i>
+            <div className="bg-green-500 dark:bg-green-600 p-1.5 sm:p-2 md:p-2.5 rounded-lg text-white shadow-md flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10">
+              <i className="bi bi-airplane text-sm sm:text-base"></i>
             </div>
           </div>
         </div>
         
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 border-l-4 border-purple-500">
-          <div className="flex justify-between items-center">
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-gray-800 dark:to-gray-700 rounded-xl shadow-md p-3 sm:p-4 md:p-6 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">          <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-300 uppercase">Flights</p>
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white">{stats.flights}</h2>
+              <p className="text-2xs sm:text-xs font-medium text-purple-600 dark:text-purple-300 uppercase tracking-wide">Flights</p>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mt-1">{stats.flights}</h2>
             </div>
-            <div className="bg-purple-100 dark:bg-purple-900 p-3 rounded-full">
-              <i className="bi bi-plane-departure text-xl text-purple-500 dark:text-purple-300"></i>
+            <div className="bg-purple-500 dark:bg-purple-600 p-1.5 sm:p-2 md:p-2.5 rounded-lg text-white shadow-md flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10">
+              <i className="bi bi-airplane-engines text-sm sm:text-base"></i>
             </div>
           </div>
         </div>
         
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 border-l-4 border-yellow-500">
+        <div className="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-gray-800 dark:to-gray-700 rounded-xl shadow-md p-3 sm:p-4 md:p-6 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-300 uppercase">Passengers</p>
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white">{stats.passengers}</h2>
+              <p className="text-2xs sm:text-xs font-medium text-amber-600 dark:text-amber-300 uppercase tracking-wide">Passengers</p>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mt-1">{stats.passengers}</h2>
             </div>
-            <div className="bg-yellow-100 dark:bg-yellow-900 p-3 rounded-full">
-              <i className="bi bi-people text-xl text-yellow-500 dark:text-yellow-300"></i>
+            <div className="bg-amber-500 dark:bg-amber-600 p-1.5 sm:p-2 md:p-2.5 rounded-lg text-white shadow-md flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10">
+              <i className="bi bi-people text-sm sm:text-base"></i>
             </div>
           </div>
         </div>
         
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 border-l-4 border-red-500">
+        <div className="bg-gradient-to-br from-rose-50 to-rose-100 dark:from-gray-800 dark:to-gray-700 rounded-xl shadow-md p-3 sm:p-4 md:p-6 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-300 uppercase">Tickets</p>
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white">{stats.tickets}</h2>
+              <p className="text-2xs sm:text-xs font-medium text-rose-600 dark:text-rose-300 uppercase tracking-wide">Tickets</p>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mt-1">{stats.tickets}</h2>
             </div>
-            <div className="bg-red-100 dark:bg-red-900 p-3 rounded-full">
-              <i className="bi bi-ticket-perforated text-xl text-red-500 dark:text-red-300"></i>
+            <div className="bg-rose-500 dark:bg-rose-600 p-1.5 sm:p-2 md:p-2.5 rounded-lg text-white shadow-md flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10">
+              <i className="bi bi-ticket-perforated text-sm sm:text-base"></i>
             </div>
           </div>
         </div>
       </div>
       
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Recent Activity</h3>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+          <div className="flex items-center mb-4 sm:mb-6">
+            <div className="p-1.5 sm:p-2 bg-indigo-100 dark:bg-indigo-900 rounded-lg mr-2 sm:mr-3">
+              <i className="bi bi-clock-history text-lg sm:text-xl text-indigo-600 dark:text-indigo-300"></i>
+            </div>
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">Recent Activity</h3>
+          </div>
+          
           {recentActivity.length > 0 ? (
-            <div className="space-y-3">
+            <div className="space-y-3 sm:space-y-4">
               {recentActivity.map(activity => (
-                <div key={activity.id} className="p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
-                  <p className="text-gray-800 dark:text-gray-200">{activity.message}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{activity.time}</p>
+                <div key={activity.id} className="p-3 sm:p-4 border-l-4 border-indigo-400 bg-gray-50 dark:bg-gray-700 dark:border-indigo-600 rounded-r-lg transform transition hover:scale-[1.02]">
+                  <p className="text-sm sm:text-base text-gray-800 dark:text-gray-200 font-medium">{activity.message}</p>
+                  <div className="flex items-center mt-1 sm:mt-2 text-2xs sm:text-xs text-gray-500 dark:text-gray-400">
+                    <i className="bi bi-clock mr-1"></i>
+                    <span>{activity.time}</span>
+                  </div>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-gray-500 dark:text-gray-400">No recent activity found</p>
+            <div className="flex justify-center items-center h-24 sm:h-32 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                <i className="bi bi-info-circle mr-2"></i>
+                No recent activity found
+              </p>
+            </div>
           )}
         </div>
         
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white">System Status</h3>
-          <div className="space-y-3">
-            <div className="flex justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
-              <span className="text-gray-800 dark:text-gray-200">Database</span>
-              <span className={systemStatus.database === 'Online' ? 'text-green-500' : 'text-red-500'}>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+          <div className="flex items-center mb-4 sm:mb-6">
+            <div className="p-1.5 sm:p-2 bg-emerald-100 dark:bg-emerald-900 rounded-lg mr-2 sm:mr-3">
+              <i className="bi bi-hdd-stack text-lg sm:text-xl text-emerald-600 dark:text-emerald-300"></i>
+            </div>
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">System Status</h3>
+          </div>
+          
+          <div className="space-y-3 sm:space-y-4">
+            <div className="flex items-center justify-between p-3 sm:p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="flex items-center">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-2 sm:mr-3">
+                  <i className="bi bi-database text-sm sm:text-base text-blue-600 dark:text-blue-300"></i>
+                </div>
+                <span className="text-sm sm:text-base font-medium text-gray-800 dark:text-gray-200">Database</span>
+              </div>
+              <span className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium ${
+                systemStatus.database === 'Online' 
+                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
+                  : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+              }`}>
                 {systemStatus.database || 'Unknown'}
               </span>
             </div>
-            <div className="flex justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
-              <span className="text-gray-800 dark:text-gray-200">API Server</span>
-              <span className={
-                systemStatus.api === 'Online' ? 'text-green-500' : 
-                systemStatus.api === 'Degraded' ? 'text-yellow-500' : 'text-red-500'
-              }>
+            
+            <div className="flex items-center justify-between p-3 sm:p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="flex items-center">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center mr-2 sm:mr-3">
+                  <i className="bi bi-hdd-network text-sm sm:text-base text-purple-600 dark:text-purple-300"></i>
+                </div>
+                <span className="text-sm sm:text-base font-medium text-gray-800 dark:text-gray-200">API</span>
+              </div>
+              <span className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium ${
+                systemStatus.api === 'Online' 
+                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
+                  : systemStatus.api === 'Degraded'
+                    ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                    : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+              }`}>
                 {systemStatus.api || 'Unknown'}
               </span>
             </div>
-            <div className="flex justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
-              <span className="text-gray-800 dark:text-gray-200">Storage</span>
-              <span className={systemStatus.storage === 'Online' ? 'text-green-500' : 'text-red-500'}>
+            
+            <div className="flex items-center justify-between p-3 sm:p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="flex items-center">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center mr-2 sm:mr-3">
+                  <i className="bi bi-hdd text-sm sm:text-base text-emerald-600 dark:text-emerald-300"></i>
+                </div>
+                <span className="text-sm sm:text-base font-medium text-gray-800 dark:text-gray-200">Storage</span>
+              </div>
+              <span className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium ${
+                systemStatus.storage === 'Online' 
+                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
+                  : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+              }`}>
                 {systemStatus.storage || 'Unknown'}
               </span>
             </div>
           </div>
         </div>
       </div>
+      
+      {error && (
+        <div className="bg-red-50 border-l-4 border-red-400 p-3 sm:p-4 rounded-md">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <i className="bi bi-exclamation-triangle text-red-400"></i>
+            </div>
+            <div className="ml-2 sm:ml-3">
+              <p className="text-xs sm:text-sm text-red-700">{error}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
